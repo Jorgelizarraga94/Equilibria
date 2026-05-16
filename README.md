@@ -1,1 +1,1 @@
-# Equilibria
+# Equilibria Software
