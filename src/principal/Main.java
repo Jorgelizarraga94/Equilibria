@@ -1,4 +1,4 @@
-package logica;
+package principal;
 
 public class Main {
 
