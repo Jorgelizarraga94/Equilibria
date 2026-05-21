@@ -46,6 +46,7 @@ public class PanelResolver extends JPanel {
         add(panelSuperior, BorderLayout.NORTH);
 
         // ESTADISTICAS
+        //Se deberia cambiar los labels por 
         JPanel panelStats =
                 new JPanel(new GridLayout(5, 1));
 

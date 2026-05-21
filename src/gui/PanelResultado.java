@@ -28,11 +28,7 @@ public class PanelResultado extends JPanel {
 
         tabla.setModel(new DefaultTableModel(
                 new Object[][] {},
-                new String[] {
-                        "Nombre",
-                        "Rol",
-                        "Calificación"
-                }
+                new String[] {"Nombre", "Rol", "Calificación", "Foto"}
         ));
 
         JScrollPane scrollPane =

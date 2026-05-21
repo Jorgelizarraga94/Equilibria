@@ -33,12 +33,7 @@ public class PanelPersonas extends JPanel {
 
         tabla.setModel(new DefaultTableModel(
                 new Object[][] {},
-                new String[] {
-                        "Nombre",
-                        "Rol",
-                        "Calificación",
-                        "Foto"
-                }
+                new String[] {"Nombre", "Rol", "Calificación", "Foto"}
         ));
 
         JScrollPane scrollPane =

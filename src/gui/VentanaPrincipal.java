@@ -25,24 +25,28 @@ public class VentanaPrincipal extends JFrame {
 
         getContentPane().setLayout(null);
 
+        // PERSONAS
         panelPersonas = new PanelPersonas();
 
         panelPersonas.setBounds(10, 10, 450, 300);
 
         getContentPane().add(panelPersonas);
 
+        // INCOMPATIBILIDADES
         panelIncompatibilidades = new PanelIncompatibilidades();
 
         panelIncompatibilidades.setBounds(470, 10, 450, 300);
 
         getContentPane().add(panelIncompatibilidades);
 
+        // REQUERIMIENTOS
         panelRequerimientos = new PanelRequerimientos();
 
         panelRequerimientos.setBounds(930, 10, 430, 300);
 
         getContentPane().add(panelRequerimientos);
 
+        // RESOLVER
         panelResolver = new PanelResolver();
 
         panelResolver.setBounds(10, 320, 400, 400);
@@ -56,11 +60,5 @@ public class VentanaPrincipal extends JFrame {
         getContentPane().add(panelResultado);
     }
 
-    public static void main(String[] args) {
-
-        VentanaPrincipal ventana =
-                new VentanaPrincipal();
-
-        ventana.setVisible(true);
-    }
+    
 }
