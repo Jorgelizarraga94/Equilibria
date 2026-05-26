@@ -17,18 +17,36 @@ public class ABTTest {
     private List<String[]> incompatibilidades;
     private int[] requerimientos;
 
-    private final Persona liderProfesional = new Persona("Carlos", "líder de proyecto", 5);
-    private final Persona liderBueno = new Persona("Ana", "líder de proyecto", 4);
-    private final Persona progProfesional = new Persona("Sofía", "programador", 5);
-    private final Persona progNormal = new Persona("Juan", "programador", 3);
-    private final Persona progNovato = new Persona("Pedro", "programador", 1);
 
-    @Before
-    public void inicio() {
-        personasDisponibles = new ArrayList<>();
-        incompatibilidades = new ArrayList<>();
-        requerimientos = new int[]{1, 0, 1, 0}; 
-    }
+ // Líderes (Necesitamos 1)
+ private final Persona liderPerfecto = new Persona("Carlos", "líder de proyecto", 5);
+ private final Persona liderBueno = new Persona("Ana", "líder de proyecto", 4);
+
+ // Arquitectos (Necesitamos 2)
+ private final Persona arq1 = new Persona("Elena", "arquitecto", 5);
+ private final Persona arq2 = new Persona("Marcos", "arquitecto", 4);
+ private final Persona arq3 = new Persona("Lucas", "arquitecto", 2);
+
+ // Programadores (Necesitamos 4)
+ private final Persona prog1 = new Persona("Sofía", "programador", 5);
+ private final Persona prog2 = new Persona("Juan", "programador", 4);
+ private final Persona prog3 = new Persona("Pedro", "programador", 3);
+ private final Persona prog4 = new Persona("Lucía", "programador", 3);
+ private final Persona prog5 = new Persona("Bruno", "programador", 1);
+
+ // Testers (Necesitamos 5)
+ private final Persona test1 = new Persona("Mía", "tester", 5);
+ private final Persona test2 = new Persona("Facundo", "tester", 4);
+ private final Persona test3 = new Persona("Rocío", "tester", 4);
+ private final Persona test4 = new Persona("Tomás", "tester", 3);
+ private final Persona test5 = new Persona("Mateo", "tester", 2);
+
+ @Before
+ public void inicio() {
+     personasDisponibles = new ArrayList<>();
+     incompatibilidades = new ArrayList<>();
+     requerimientos = new int[]{1, 2, 4, 5}; 
+ }
 
     private List<Persona> inicializarYEjecutar() {
         solver = new AlgoritmoBackTracking(personasDisponibles, incompatibilidades, requerimientos);
@@ -47,39 +65,79 @@ public class ABTTest {
 
     @Test
     public void testSeleccionaAlDeMejorCalificacion() {
+        personasDisponibles.add(arq1); personasDisponibles.add(arq2);
+        personasDisponibles.add(test1); personasDisponibles.add(test2); 
+        personasDisponibles.add(test3); personasDisponibles.add(test4); 
+        personasDisponibles.add(test5);
         personasDisponibles.add(liderBueno);
-        personasDisponibles.add(progNovato);
-        personasDisponibles.add(progProfesional);
+        personasDisponibles.add(liderPerfecto);
+        personasDisponibles.add(prog1);
+        personasDisponibles.add(prog2);
+        personasDisponibles.add(prog3);
+        personasDisponibles.add(prog4);
+        personasDisponibles.add(prog5);
 
         List<Persona> resultado = inicializarYEjecutar();
-
-        assertTrue(resultado.contains(liderBueno));
-        assertTrue(resultado.contains(progProfesional));
-        assertFalse(resultado.contains(progNovato));
-        assertEquals(2, resultado.size());
+        assertEquals(12, resultado.size()); 
+        assertTrue(resultado.contains(liderPerfecto));
+        assertFalse(resultado.contains(liderBueno));
+        assertTrue(resultado.contains(prog1));
+        assertFalse(resultado.contains(prog5)); // Bruno quedó afuera por su baja nota
     }
 
     @Test
     public void testEvitaIncompatibilidadAunPerdiendoPuntaje() {
-        personasDisponibles.add(liderProfesional);
-        personasDisponibles.add(progProfesional);  
-        personasDisponibles.add(progNormal); 
+        personasDisponibles.add(arq1); personasDisponibles.add(arq2);
+        personasDisponibles.add(test1); personasDisponibles.add(test2); 
+        personasDisponibles.add(test3); personasDisponibles.add(test4); 
+        personasDisponibles.add(test5);
+        personasDisponibles.add(liderPerfecto); // Carlos (5)
+        personasDisponibles.add(prog1); // Sofía (5)
+        personasDisponibles.add(prog2); 
+        personasDisponibles.add(prog3); 
+        personasDisponibles.add(prog4);
+        personasDisponibles.add(prog5); // Bruno (1)
 
-        registrarIncompatibilidad(liderProfesional, progProfesional);
+        registrarIncompatibilidad(liderPerfecto, prog1);
 
         List<Persona> resultado = inicializarYEjecutar();
 
-        assertTrue(resultado.contains(liderProfesional));
-        assertTrue(resultado.contains(progNormal));
-        assertFalse(resultado.contains(progProfesional));
+        assertTrue(resultado.contains(liderPerfecto));
+        assertTrue(resultado.contains(prog5)); 
+        assertFalse(resultado.contains(prog1)); // Sofía queda afuera por incompatibilidad
+        assertEquals(12, resultado.size());
+    }
+    @Test
+    public void testEvitaIncompatibilidadEnEquipoGrande() {
+
+        personasDisponibles.add(arq1); personasDisponibles.add(arq2);
+        personasDisponibles.add(test1); personasDisponibles.add(test2); 
+        personasDisponibles.add(test3); personasDisponibles.add(test4); 
+        personasDisponibles.add(test5);
+        
+        personasDisponibles.add(liderPerfecto);
+        personasDisponibles.add(prog1); // Sofía (5)
+        personasDisponibles.add(prog2); 
+        personasDisponibles.add(prog3); 
+        personasDisponibles.add(prog4);
+
+        registrarIncompatibilidad(liderPerfecto, prog1);
+
+        List<Persona> resultado = inicializarYEjecutar();
+
+        assertFalse(resultado.contains(liderPerfecto) && resultado.contains(prog1));
     }
 
     @Test
     public void testSinSolucionPosibleDevuelveVacio() {
-        personasDisponibles.add(liderProfesional);
-        personasDisponibles.add(progProfesional);
-
-        registrarIncompatibilidad(liderProfesional, progProfesional);
+        personasDisponibles.add(liderPerfecto);
+        personasDisponibles.add(arq1); personasDisponibles.add(arq2);
+        personasDisponibles.add(prog1); personasDisponibles.add(prog2); 
+        personasDisponibles.add(prog3); personasDisponibles.add(prog4);
+        personasDisponibles.add(test1); personasDisponibles.add(test2); 
+        personasDisponibles.add(test3); personasDisponibles.add(test4); 
+        personasDisponibles.add(test5);
+        registrarIncompatibilidad(liderPerfecto, test1);
 
         List<Persona> resultado = inicializarYEjecutar();
 
@@ -88,10 +146,16 @@ public class ABTTest {
 
     @Test
     public void testFaltaDePersonalParaCumplirRequerimiento() {
-        personasDisponibles.add(liderProfesional);
+        personasDisponibles.add(liderPerfecto);
+        personasDisponibles.add(arq1); personasDisponibles.add(arq2);
+        personasDisponibles.add(prog1); personasDisponibles.add(prog2); 
+        personasDisponibles.add(prog3); personasDisponibles.add(prog4);
+        personasDisponibles.add(test1); 
+        personasDisponibles.add(test2); 
+        personasDisponibles.add(test3); 
+        personasDisponibles.add(test4);
 
         List<Persona> resultado = inicializarYEjecutar();
-
         assertTrue(resultado.isEmpty());
     }
 }
