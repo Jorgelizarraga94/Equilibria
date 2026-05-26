@@ -63,9 +63,12 @@ public class AFBTest {
 
     @Test
     public void testSeleccionaAlDeMejorCalificacion() {
-        personasDisponibles.add(arq1); personasDisponibles.add(arq2);
-        personasDisponibles.add(test1); personasDisponibles.add(test2); 
-        personasDisponibles.add(test3); personasDisponibles.add(test4); 
+        personasDisponibles.add(arq1); 
+        personasDisponibles.add(arq2);
+        personasDisponibles.add(test1); 
+        personasDisponibles.add(test2); 
+        personasDisponibles.add(test3); 
+        personasDisponibles.add(test4); 
         personasDisponibles.add(test5);
         personasDisponibles.add(liderBueno);
         personasDisponibles.add(liderPerfecto);
@@ -85,9 +88,12 @@ public class AFBTest {
 
     @Test
     public void testEvitaIncompatibilidadAunPerdiendoPuntaje() {
-        personasDisponibles.add(arq1); personasDisponibles.add(arq2);
-        personasDisponibles.add(test1); personasDisponibles.add(test2); 
-        personasDisponibles.add(test3); personasDisponibles.add(test4); 
+        personasDisponibles.add(arq1); 
+        personasDisponibles.add(arq2);
+        personasDisponibles.add(test1); 
+        personasDisponibles.add(test2); 
+        personasDisponibles.add(test3); 
+        personasDisponibles.add(test4); 
         personasDisponibles.add(test5);
         personasDisponibles.add(liderPerfecto); // Carlos (5)
         personasDisponibles.add(prog1); // Sofía (5)
@@ -108,9 +114,12 @@ public class AFBTest {
     @Test
     public void testEvitaIncompatibilidadEnEquipoGrande() {
 
-        personasDisponibles.add(arq1); personasDisponibles.add(arq2);
-        personasDisponibles.add(test1); personasDisponibles.add(test2); 
-        personasDisponibles.add(test3); personasDisponibles.add(test4); 
+        personasDisponibles.add(arq1); 
+        personasDisponibles.add(arq2);
+        personasDisponibles.add(test1); 
+        personasDisponibles.add(test2); 
+        personasDisponibles.add(test3); 
+        personasDisponibles.add(test4); 
         personasDisponibles.add(test5);
         
         personasDisponibles.add(liderPerfecto);
@@ -129,11 +138,16 @@ public class AFBTest {
     @Test
     public void testSinSolucionPosibleDevuelveVacio() {
         personasDisponibles.add(liderPerfecto);
-        personasDisponibles.add(arq1); personasDisponibles.add(arq2);
-        personasDisponibles.add(prog1); personasDisponibles.add(prog2); 
-        personasDisponibles.add(prog3); personasDisponibles.add(prog4);
-        personasDisponibles.add(test1); personasDisponibles.add(test2); 
-        personasDisponibles.add(test3); personasDisponibles.add(test4); 
+        personasDisponibles.add(arq1); 
+        personasDisponibles.add(arq2);
+        personasDisponibles.add(prog1); 
+        personasDisponibles.add(prog2); 
+        personasDisponibles.add(prog3); 
+        personasDisponibles.add(prog4);
+        personasDisponibles.add(test1); 
+        personasDisponibles.add(test2); 
+        personasDisponibles.add(test3); 
+        personasDisponibles.add(test4); 
         personasDisponibles.add(test5);
         registrarIncompatibilidad(liderPerfecto, test1);
 
@@ -145,9 +159,12 @@ public class AFBTest {
     @Test
     public void testFaltaDePersonalParaCumplirRequerimiento() {
         personasDisponibles.add(liderPerfecto);
-        personasDisponibles.add(arq1); personasDisponibles.add(arq2);
-        personasDisponibles.add(prog1); personasDisponibles.add(prog2); 
-        personasDisponibles.add(prog3); personasDisponibles.add(prog4);
+        personasDisponibles.add(arq1); 
+        personasDisponibles.add(arq2);
+        personasDisponibles.add(prog1); 
+        personasDisponibles.add(prog2); 
+        personasDisponibles.add(prog3); 
+        personasDisponibles.add(prog4);
         personasDisponibles.add(test1); 
         personasDisponibles.add(test2); 
         personasDisponibles.add(test3); 
