@@ -3,6 +3,8 @@ package gui;
 import javax.swing.JFrame;
 
 import logica.LogicaEquilibria;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class VentanaPrincipal extends JFrame {
 
@@ -37,7 +39,7 @@ public class VentanaPrincipal extends JFrame {
 		getContentPane().add(panelPersonas);
 
 		// INCOMPATIBILIDADES
-		panelIncompatibilidades = new PanelIncompatibilidades();
+		panelIncompatibilidades = new PanelIncompatibilidades(logicaEquilibria);
 
 		panelIncompatibilidades.setBounds(470, 10, 450, 300);
 
@@ -59,7 +61,7 @@ public class VentanaPrincipal extends JFrame {
 
 		panelResultado = new PanelResultado();
 
-		panelResultado.setBounds(420, 320, 940, 400);
+		panelResultado.setBounds(434, 321, 940, 400);
 
 		getContentPane().add(panelResultado);
 	}

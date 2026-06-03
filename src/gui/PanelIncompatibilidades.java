@@ -6,61 +6,71 @@ import javax.swing.JTable;
 import javax.swing.JButton;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
+
+import logica.LogicaEquilibria;
+
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class PanelIncompatibilidades extends JPanel {
 
-    private JTable tabla;
-    private JButton btnAgregar;
-    private JButton btnEliminar;
+	private JTable tabla;
+	private JButton btnAgregar;
+	private JButton btnEliminar;
+	LogicaEquilibria logicaEquilibria;
 
-    public PanelIncompatibilidades() {
+	public PanelIncompatibilidades(LogicaEquilibria logica) {
+		this.logicaEquilibria = logica;
+		initialize();
+	}
 
-        initialize();
-    }
+	private void initialize() {
 
-    private void initialize() {
+		setLayout(new BorderLayout());
 
-        setLayout(new BorderLayout());
+		setBorder(new TitledBorder("2. Incompatibilidades"));
 
-        setBorder(
-                new TitledBorder("2. Incompatibilidades")
-        );
+		// TABLA
+		tabla = new JTable();
 
-        // TABLA
-        tabla = new JTable();
+		tabla.setModel(new DefaultTableModel(new Object[][] {}, new String[] { "Persona 1", "Persona 2" }));
 
-        tabla.setModel(new DefaultTableModel(
-                new Object[][] {},
-                new String[] {"Persona 1", "Persona 2"}
-        ));
+		JScrollPane scrollPane = new JScrollPane(tabla);
 
-        JScrollPane scrollPane =
-                new JScrollPane(tabla);
+		add(scrollPane, BorderLayout.CENTER);
 
-        add(scrollPane, BorderLayout.CENTER);
+		// BOTONES
+		JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
-        // BOTONES
-        JPanel panelBotones =
-                new JPanel(new FlowLayout(FlowLayout.LEFT));
+		btnAgregar = new JButton("Agregar");
+		btnAgregar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				agregarIncopatibilidades(e);
+			}
+		});
 
-       
-        btnAgregar = new JButton("Agregar");
-        
-        btnEliminar = new JButton("Eliminar");
+		btnEliminar = new JButton("Eliminar");
 
-        panelBotones.add(btnEliminar);
-        panelBotones.add(btnAgregar);
+		panelBotones.add(btnEliminar);
+		panelBotones.add(btnAgregar);
 
-        add(panelBotones, BorderLayout.NORTH);
-    }
+		add(panelBotones, BorderLayout.NORTH);
+	}
 
-    public JTable getTabla() {
-        return tabla;
-    }
+	private void agregarIncopatibilidades(ActionEvent accion) {
+		VentanaAgregarIncompatibilidades ventanaAgregarIncompatibilidades = new VentanaAgregarIncompatibilidades(
+				logicaEquilibria, this);
+		ventanaAgregarIncompatibilidades.setVisible(true);
+		ventanaAgregarIncompatibilidades.setLocationRelativeTo(null);
+	}
 
-    public JButton getBtnAgregar() {
-        return btnAgregar;
-    }
+	public JTable getTabla() {
+		return tabla;
+	}
+
+	public JButton getBtnAgregar() {
+		return btnAgregar;
+	}
 }
