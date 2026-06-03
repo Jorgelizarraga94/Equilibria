@@ -47,5 +47,10 @@ public class Persona {
 		return foto;
 	}
 	
+	@Override
+	public String toString() {
+		return nombre;
+	}
+	
 	
 }

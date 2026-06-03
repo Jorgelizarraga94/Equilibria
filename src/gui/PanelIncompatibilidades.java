@@ -65,6 +65,23 @@ public class PanelIncompatibilidades extends JPanel {
 		ventanaAgregarIncompatibilidades.setVisible(true);
 		ventanaAgregarIncompatibilidades.setLocationRelativeTo(null);
 	}
+	
+	//Actualizar la tabla
+	public void actualizarTabla() {
+
+		DefaultTableModel modelo =
+				(DefaultTableModel) tabla.getModel();
+
+		modelo.setRowCount(0);
+
+		for (var incompatibilidad : logicaEquilibria.getIncompatibilidades()) {
+
+			modelo.addRow(new Object[] {
+					incompatibilidad.getPersona1().getNombre(),
+					incompatibilidad.getPersona2().getNombre()
+			});
+		}
+	}
 
 	public JTable getTabla() {
 		return tabla;

@@ -4,7 +4,10 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.table.DefaultTableModel;
 
+import entidades.Incompatibilidad;
+import entidades.Persona;
 import logica.LogicaEquilibria;
 
 import javax.swing.JComboBox;
@@ -35,18 +38,47 @@ public class VentanaAgregarIncompatibilidades extends JFrame {
 		lblPersona.setBounds(84, 102, 78, 14);
 		this.getContentPane().add(lblPersona);
 
-		JComboBox comboBox = new JComboBox();
+		JComboBox<Persona> comboBox = new JComboBox<>();
 		comboBox.setBounds(172, 60, 154, 22);
 		this.getContentPane().add(comboBox);
 
-		JComboBox comboBox_1 = new JComboBox();
+		JComboBox<Persona> comboBox_1 = new JComboBox<>();
 		comboBox_1.setBounds(172, 98, 154, 22);
 		this.getContentPane().add(comboBox_1);
 
 		JButton btnNewButton = new JButton("Generar incopatibilidad");
 		btnNewButton.setBounds(132, 165, 178, 23);
 		this.getContentPane().add(btnNewButton);
+		
+		//Accion del boton para agregar la incompatibilidad
+		btnNewButton.addActionListener(e -> {
+			Persona persona1 = (Persona) comboBox.getSelectedItem();
+			Persona persona2 = (Persona) comboBox_1.getSelectedItem();
+			
+			if (persona1 != null && persona2 != null) {
+
+				logicaEquilibria.agregarIncompatibilidad(persona1, persona2);
+
+				panelAgregarIncompatibilidades.actualizarTabla();
+
+				this.dispose();
+			}
+	
+		});
+		
+
+
+		//Metodo para cargar las personas en los comboBox
+		for (Persona persona : logicaEquilibria.getPersonas().values()) {
+			comboBox.addItem(persona);
+			comboBox_1.addItem(persona);
+		}
+		
+		
+		
 
 	}
-
+	
+	
+	
 }
