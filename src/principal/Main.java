@@ -1,13 +1,14 @@
 package principal;
 
 import gui.VentanaPrincipal;
+import logica.LogicaEquilibria;
 
 public class Main {
 
 	public static void main(String[] args) {
 		
-		
-		VentanaPrincipal ventana = new VentanaPrincipal();
+		LogicaEquilibria equilibria = new LogicaEquilibria();
+		VentanaPrincipal ventana = new VentanaPrincipal(equilibria);
 		ventana.setVisible(true);
 		
 	}

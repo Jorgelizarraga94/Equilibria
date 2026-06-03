@@ -2,63 +2,66 @@ package gui;
 
 import javax.swing.JFrame;
 
+import logica.LogicaEquilibria;
+
 public class VentanaPrincipal extends JFrame {
 
-    private PanelPersonas panelPersonas;
-    private PanelIncompatibilidades panelIncompatibilidades;
-    private PanelRequerimientos panelRequerimientos;
-    private PanelResolver panelResolver;
-    private PanelResultado panelResultado;
+	private PanelPersonas panelPersonas;
+	private PanelIncompatibilidades panelIncompatibilidades;
+	private PanelRequerimientos panelRequerimientos;
+	private PanelResolver panelResolver;
+	private PanelResultado panelResultado;
 
-    public VentanaPrincipal() {
+	LogicaEquilibria logicaEquilibria;
 
-        initialize();
-    }
+	public VentanaPrincipal(LogicaEquilibria logica) {
+		this.logicaEquilibria = logica;
+		initialize();
+	}
 
-    private void initialize() {
+	private void initialize() {
 
-        setTitle("Sofware Factoy Equilibria");
+		setTitle("Sofware Factoy Equilibria");
 
-        setBounds(100, 100, 1400, 800);
+		setBounds(100, 100, 1400, 800);
 
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        getContentPane().setLayout(null);
+		getContentPane().setLayout(null);
 
-        // PERSONAS
-        panelPersonas = new PanelPersonas();
+		// PERSONAS
+		panelPersonas = new PanelPersonas(logicaEquilibria);
 
-        panelPersonas.setBounds(10, 10, 450, 300);
+		panelPersonas.setBounds(10, 10, 450, 300);
 
-        getContentPane().add(panelPersonas);
+		getContentPane().add(panelPersonas);
 
-        // INCOMPATIBILIDADES
-        panelIncompatibilidades = new PanelIncompatibilidades();
+		// INCOMPATIBILIDADES
+		panelIncompatibilidades = new PanelIncompatibilidades();
 
-        panelIncompatibilidades.setBounds(470, 10, 450, 300);
+		panelIncompatibilidades.setBounds(470, 10, 450, 300);
 
-        getContentPane().add(panelIncompatibilidades);
+		getContentPane().add(panelIncompatibilidades);
 
-        // REQUERIMIENTOS
-        panelRequerimientos = new PanelRequerimientos();
+		// REQUERIMIENTOS
+		panelRequerimientos = new PanelRequerimientos();
 
-        panelRequerimientos.setBounds(930, 10, 430, 300);
+		panelRequerimientos.setBounds(930, 10, 430, 300);
 
-        getContentPane().add(panelRequerimientos);
+		getContentPane().add(panelRequerimientos);
 
-        // RESOLVER
-        panelResolver = new PanelResolver();
+		// RESOLVER
+		panelResolver = new PanelResolver();
 
-        panelResolver.setBounds(10, 320, 400, 400);
+		panelResolver.setBounds(10, 320, 400, 400);
 
-        getContentPane().add(panelResolver);
+		getContentPane().add(panelResolver);
 
-        panelResultado = new PanelResultado();
+		panelResultado = new PanelResultado();
 
-        panelResultado.setBounds(420, 320, 940, 400);
+		panelResultado.setBounds(420, 320, 940, 400);
 
-        getContentPane().add(panelResultado);
-    }
+		getContentPane().add(panelResultado);
+	}
 
-    
 }
