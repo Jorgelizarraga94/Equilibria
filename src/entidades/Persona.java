@@ -1,7 +1,7 @@
 package entidades;
 
 public class Persona {
-	private Long acumulador = 0L;
+	private static Long acumulador = 0L;
 	private Long id;
 	private String nombre;
 	private String rol;
@@ -12,7 +12,7 @@ public class Persona {
 	
 	//constructor
 	public Persona(String nombre, String rol, int calificacion, String foto) {
-		this.id = acumulador + 1;
+		this.id = ++acumulador;
 		this.nombre = nombre;
 		this.rol = rol;
 		this.calificacion = calificacion;
