@@ -8,7 +8,7 @@ public class Persona {
 	private int calificacion;
 	
 	//Foto de la persona
-	private String foto; // Ruta o URL de la foto, que va a estar en el paquete de recursos
+	private String foto; // Ruta o URL de la foto, que va a estar en el paquete de recursos //recursos/imagenes/Hombre1.png
 	
 	//constructor
 	public Persona(String nombre, String rol, int calificacion, String foto) {

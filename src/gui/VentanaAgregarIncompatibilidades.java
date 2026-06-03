@@ -24,7 +24,7 @@ public class VentanaAgregarIncompatibilidades extends JFrame {
 	private void initialize() {
 
 		this.setBounds(100, 100, 450, 300);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // para que no se cierre toda la aplicacion al cerrar la ventana
 		this.getContentPane().setLayout(null);
 
 		JLabel lblNewLabel = new JLabel("Persona 1");
