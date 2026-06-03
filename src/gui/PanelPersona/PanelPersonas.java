@@ -1,4 +1,4 @@
-package gui;
+package gui.PanelPersona;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -9,6 +9,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
 import entidades.Persona;
+import gui.VentanasEmergentes.VentanaAgregarPersona;
 import logica.LogicaEquilibria;
 
 import java.awt.BorderLayout;

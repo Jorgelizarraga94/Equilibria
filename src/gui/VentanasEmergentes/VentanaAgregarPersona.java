@@ -1,4 +1,4 @@
-package gui;
+package gui.VentanasEmergentes;
 
 import java.awt.EventQueue;
 
@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import gui.PanelPersona.PanelPersonas;
 import logica.LogicaEquilibria;
 
 import javax.swing.JLabel;
@@ -38,7 +39,8 @@ public class VentanaAgregarPersona extends JFrame {
 	}
 
 	private void initialize() {
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // para que no se cierre toda la aplicacion al cerrar la ventana
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // para que no se cierre toda la aplicacion al cerrar la
+															// ventana
 		setBounds(100, 100, 407, 344);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -90,17 +92,17 @@ public class VentanaAgregarPersona extends JFrame {
 		textFieldFoto.setBounds(180, 147, 123, 20);
 		contentPane.add(textFieldFoto);
 
-		//Para agregar una foto
+		// Para agregar una foto
 		JButton btnAgregarImagen = new JButton("Agregar Imagen");
 		btnAgregarImagen.setBounds(180, 180, 123, 23);
 		contentPane.add(btnAgregarImagen);
 
 		btnAgregarImagen.addActionListener(new ActionListener() {
-		    public void actionPerformed(ActionEvent e) {
-		        seleccionarImagen();
-		    }
+			public void actionPerformed(ActionEvent e) {
+				seleccionarImagen();
+			}
 		});
-		
+
 	}
 
 	private void agregarPersona() {
@@ -109,25 +111,25 @@ public class VentanaAgregarPersona extends JFrame {
 		panelPersonas.refrescarTabla();
 		this.dispose();
 	}
-	
-	//Metodo para seleccionar una imagen desde el sistema de archivos
+
+	// Metodo para seleccionar una imagen desde el sistema de archivos
 	private void seleccionarImagen() {
-	    JFileChooser selector = new JFileChooser();
+		java.io.File carpetaProyecto = new java.io.File("./imagenes");
 
-	    FileNameExtensionFilter filtro =
-	            new FileNameExtensionFilter(
-	                    "Imágenes (*.jpg, *.png, *.jpeg)",
-	                    "jpg", "jpeg", "png");
+		JFileChooser selector = new JFileChooser(carpetaProyecto);
 
-	    selector.setFileFilter(filtro);
+		FileNameExtensionFilter filtro = new FileNameExtensionFilter("Imágenes (*.jpg, *.png, *.jpeg)", "jpg", "jpeg",
+				"png");
 
-	    int opcion = selector.showOpenDialog(this);
+		selector.setFileFilter(filtro);
 
-	    if (opcion == JFileChooser.APPROVE_OPTION) {
+		int opcion = selector.showOpenDialog(this);
 
-	        File archivo = selector.getSelectedFile();
+		if (opcion == JFileChooser.APPROVE_OPTION) {
 
-	        textFieldFoto.setText(archivo.getAbsolutePath());
-	    }
+			File archivo = selector.getSelectedFile();
+
+			textFieldFoto.setText(archivo.getAbsolutePath());
+		}
 	}
 }

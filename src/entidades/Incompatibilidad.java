@@ -2,11 +2,11 @@ package entidades;
 
 //Creo la clase incompatibilidad para representar la incompatibilidad entre dos personas, con getters y setters
 public class Incompatibilidad {
-	
-	private Persona persona1;
-	private Persona persona2;
 	private static Long acumulador = 0L;
 	private Long id;
+	private Persona persona1;
+	private Persona persona2;
+	
 
 	public Incompatibilidad(Persona persona1, Persona persona2) {
 		this.id= ++acumulador;

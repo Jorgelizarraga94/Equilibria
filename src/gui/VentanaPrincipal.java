@@ -4,6 +4,11 @@ import javax.swing.JFrame;
 
 import entidades.Incompatibilidad;
 import entidades.Persona;
+import gui.PanelCalculo.PanelResolver;
+import gui.PanelCalculo.PanelResultado;
+import gui.PanelPersona.PanelIncompatibilidades;
+import gui.PanelPersona.PanelPersonas;
+import gui.PanelPersona.PanelRequerimientos;
 import logica.AlgoritmoFuerzaBruta;
 import logica.LogicaEquilibria;
 import java.awt.event.ActionListener;

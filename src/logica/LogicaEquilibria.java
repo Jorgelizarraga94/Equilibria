@@ -58,6 +58,9 @@ public class LogicaEquilibria {
 		return incompatibilidades;
 	}
 
+	public void eliminarIncopatibilidad(int indice) {
+		incompatibilidades.remove(indice);
+	}
 	
 	//Agregar funcion de eliminar 
 	//Agregar funcion de agregar
@@ -142,9 +145,7 @@ public class LogicaEquilibria {
         worker.execute();
     }
 
-	public void eliminarIncopatibilidad(int indice) {
-		incompatibilidades.remove(indice);
-	}
+	
 	
 	
 }

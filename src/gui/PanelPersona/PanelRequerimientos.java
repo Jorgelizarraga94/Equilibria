@@ -1,4 +1,4 @@
-package gui;
+package gui.PanelPersona;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;

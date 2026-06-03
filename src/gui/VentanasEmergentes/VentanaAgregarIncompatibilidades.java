@@ -1,4 +1,4 @@
-package gui;
+package gui.VentanasEmergentes;
 
 import java.awt.EventQueue;
 
@@ -8,6 +8,7 @@ import javax.swing.table.DefaultTableModel;
 
 import entidades.Incompatibilidad;
 import entidades.Persona;
+import gui.PanelPersona.PanelIncompatibilidades;
 import logica.LogicaEquilibria;
 
 import javax.swing.JComboBox;

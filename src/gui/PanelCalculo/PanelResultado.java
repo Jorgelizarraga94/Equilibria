@@ -1,4 +1,4 @@
-package gui;
+package gui.PanelCalculo;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
