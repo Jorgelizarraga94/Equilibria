@@ -7,6 +7,7 @@ import java.util.HashMap;
 
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 
 import entidades.Incompatibilidad;
 import entidades.Persona;
@@ -62,7 +63,88 @@ public class LogicaEquilibria {
 	//Agregar funcion de agregar
 	//Llamado a generar equipo (calcular backtracking o heuristica)
 	//
+	
+	
+	
+	// Logica FUERZA BRUTA , se vincula con PanelResolver
+	public void calcularEquipoOptimo(Object[][] datosTabla, Consumer<List<Persona>> interfazResultado) {
+        List<Persona> deLaGuiPersonas = new ArrayList<>(this.personas.values());
+        
+        List<String[]> deLaGuiIncompatibilidades = new ArrayList<>();
+        for (Incompatibilidad inc : this.incompatibilidades) {
+            deLaGuiIncompatibilidades.add(new String[]{
+                inc.getPersona1().getNombre(),
+                inc.getPersona2().getNombre()
+            });
+        }
+        
+        int[] reqs = new int[4];
+        for (int i = 0; i < 4; i++) {
+            Object valor = datosTabla[i][1];
+            if (valor == null) {
+                interfazResultado.accept(new ArrayList<>());
+                return;
+            }
+            reqs[i] = Integer.parseInt(valor.toString().trim());
+        }
+        
+        AlgoritmoFuerzaBruta worker = new AlgoritmoFuerzaBruta(deLaGuiPersonas, deLaGuiIncompatibilidades, reqs) {
+            @Override
+            protected void done() {
+                try {
+                    List<Persona> equipoGanador = get();
+                    interfazResultado.accept(equipoGanador); 
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    interfazResultado.accept(new ArrayList<>());
+                }
+            }
+        };
+        
+        worker.execute();
+    }
+	
+	// Logica BACK TRACKING, debería ser vinculado al PanelResolver (Todavía no lo hace)
+	public void calcularEquipoBacktracking(Object[][] datosTabla, Consumer<List<Persona>> interfazResultado) {
+        List<Persona> deLaGuiPersonas = new ArrayList<>(this.personas.values());
+        
+        List<String[]> deLaGuiIncompatibilidades = new ArrayList<>();
+        for (Incompatibilidad inc : this.incompatibilidades) {
+            deLaGuiIncompatibilidades.add(new String[]{
+                inc.getPersona1().getNombre(),
+                inc.getPersona2().getNombre()
+            });
+        }
+        
+        int[] reqs = new int[4];
+        for (int i = 0; i < 4; i++) {
+            Object valor = datosTabla[i][1];
+            if (valor == null) {
+                interfazResultado.accept(new ArrayList<>());
+                return;
+            }
+            reqs[i] = Integer.parseInt(valor.toString().trim());
+        }
+        
+        AlgoritmoBackTracking worker = new AlgoritmoBackTracking(deLaGuiPersonas, deLaGuiIncompatibilidades, reqs) {
+            @Override
+            protected void done() {
+                try {
+                    List<Persona> equipoGanador = get();
+                    interfazResultado.accept(equipoGanador); 
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    interfazResultado.accept(new ArrayList<>());
+                }
+            }
+        };
+        
+        worker.execute();
+    }
 
+	public void eliminarIncopatibilidad(int indice) {
+		incompatibilidades.remove(indice);
+	}
 	
 	
 }

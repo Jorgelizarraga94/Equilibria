@@ -4,6 +4,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
@@ -35,7 +36,7 @@ public class PanelIncompatibilidades extends JPanel {
 		// TABLA
 		tabla = new JTable();
 
-		tabla.setModel(new DefaultTableModel(new Object[][] {}, new String[] { "Persona 1", "Persona 2" }));
+		tabla.setModel(new DefaultTableModel(new Object[][] {}, new String[] { "id" , "Persona 1",  "Persona 2" }));
 
 		JScrollPane scrollPane = new JScrollPane(tabla);
 
@@ -77,9 +78,21 @@ public class PanelIncompatibilidades extends JPanel {
 		for (var incompatibilidad : logicaEquilibria.getIncompatibilidades()) {
 
 			modelo.addRow(new Object[] {
+					incompatibilidad.getid(),
 					incompatibilidad.getPersona1().getNombre(),
 					incompatibilidad.getPersona2().getNombre()
 			});
+		}
+	}
+	private void eliminarIncompatibilidad(ActionEvent e) {
+		int filaSeleccionada = tabla.getSelectedRow();
+		if (filaSeleccionada != -1) {
+			int filaModelo = tabla.convertRowIndexToModel(filaSeleccionada);
+			Long dato = (Long) tabla.getModel().getValueAt(filaModelo, 0);
+			logicaEquilibria.eliminarIncopatibilidad(filaModelo);
+			actualizarTabla();
+
+			JOptionPane.showMessageDialog(null, "Eliminado con éxito.");
 		}
 	}
 

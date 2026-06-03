@@ -5,8 +5,11 @@ public class Incompatibilidad {
 	
 	private Persona persona1;
 	private Persona persona2;
+	private static Long acumulador = 0L;
+	private Long id;
 
 	public Incompatibilidad(Persona persona1, Persona persona2) {
+		this.id= ++acumulador;
 		this.persona1 = persona1;
 		this.persona2 = persona2;
 	}
@@ -26,5 +29,10 @@ public class Incompatibilidad {
 	public void setPersona2(Persona persona2) {
 		this.persona2 = persona2;
 	}
+
+	public Long getid() {
+		return this.id;
+	}
+
 	
 }

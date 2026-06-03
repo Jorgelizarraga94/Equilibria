@@ -1,6 +1,8 @@
 package principal;
 
+
 import gui.VentanaPrincipal;
+
 import logica.LogicaEquilibria;
 
 public class Main {

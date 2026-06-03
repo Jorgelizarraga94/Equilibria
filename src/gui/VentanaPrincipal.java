@@ -2,6 +2,9 @@ package gui;
 
 import javax.swing.JFrame;
 
+import entidades.Incompatibilidad;
+import entidades.Persona;
+import logica.AlgoritmoFuerzaBruta;
 import logica.LogicaEquilibria;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -13,7 +16,6 @@ public class VentanaPrincipal extends JFrame {
 	private PanelRequerimientos panelRequerimientos;
 	private PanelResolver panelResolver;
 	private PanelResultado panelResultado;
-
 	LogicaEquilibria logicaEquilibria;
 
 	public VentanaPrincipal(LogicaEquilibria logica) {
@@ -53,7 +55,7 @@ public class VentanaPrincipal extends JFrame {
 		getContentPane().add(panelRequerimientos);
 
 		// RESOLVER
-		panelResolver = new PanelResolver();
+		panelResolver = new PanelResolver(logicaEquilibria , panelRequerimientos);
 
 		panelResolver.setBounds(10, 320, 400, 400);
 

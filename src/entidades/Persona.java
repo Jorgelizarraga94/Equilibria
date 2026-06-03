@@ -21,7 +21,7 @@ public class Persona {
 	
 	//constructor sin foto para los test y el algoritmo fuerza bruta, backtracking y heuristica
 	public Persona(String nombre, String rol, int calificacion) {
-		this.id += acumulador + 1;
+		this.id = ++acumulador;
 		this.nombre = nombre;
 		this.rol = rol;
 		this.calificacion = calificacion;
