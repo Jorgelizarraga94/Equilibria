@@ -58,19 +58,22 @@ public class VentanaPrincipal extends JFrame {
 		panelRequerimientos.setBounds(930, 10, 430, 300);
 
 		getContentPane().add(panelRequerimientos);
-
-		// RESOLVER
-		panelResolver = new PanelResolver(logicaEquilibria , panelRequerimientos);
-
-		panelResolver.setBounds(10, 320, 400, 400);
-
-		getContentPane().add(panelResolver);
-
+		
+		// RESULTADO 
 		panelResultado = new PanelResultado();
 
 		panelResultado.setBounds(434, 321, 940, 400);
 
 		getContentPane().add(panelResultado);
+
+		// RESOLVER
+		panelResolver = new PanelResolver(logicaEquilibria , panelRequerimientos, panelResultado);
+
+		panelResolver.setBounds(10, 320, 400, 400);
+
+		getContentPane().add(panelResolver);
+
+
 	}
 
 }

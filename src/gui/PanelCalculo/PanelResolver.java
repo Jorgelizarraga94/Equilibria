@@ -37,14 +37,16 @@ public class PanelResolver extends JPanel {
 	private JLabel lblPuntaje;
 	private LogicaEquilibria logicaEquilibria;
 	private PanelRequerimientos panelRequerimientos;
+	private PanelResultado panelRes;
 
 	private JProgressBar barra;
 	private JComboBox comboBox;
 
-	public PanelResolver(LogicaEquilibria logica, PanelRequerimientos panel) {
+	public PanelResolver(LogicaEquilibria logica, PanelRequerimientos panel, PanelResultado panelres) {
 
 		this.logicaEquilibria = logica;
 		this.panelRequerimientos = panel;
+		this.panelRes=panelres;
 		initialize();
 	}
 
@@ -87,40 +89,39 @@ public class PanelResolver extends JPanel {
 		comboBox.setBounds(0, 12, 174, 23);
 
 		panelStats.add(comboBox);
-
+		
 		btnResolver = new JButton("GENERAR EQUIPO");
-		btnResolver.setBounds(243, 12, 156, 23);
+		btnResolver.setBounds(206, 12, 153, 23);
 		panelStats.add(btnResolver);
-		btnResolver.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-				javax.swing.table.DefaultTableModel modelo = (javax.swing.table.DefaultTableModel) panelRequerimientos
-						.getTabla().getModel();
-				Object[][] datosMatriz = new Object[4][2];
-				// LOGICA NECESARIA PARA EL FUNCIONAMIENTO DE LA INTERFAZ
-				for (int i = 0; i < 4; i++) {
-					datosMatriz[i][0] = modelo.getValueAt(i, 0);
-					datosMatriz[i][1] = modelo.getValueAt(i, 1);
-				}
-
-				btnResolver.setEnabled(false);
-
-				logicaEquilibria.calcularEquipoOptimo(datosMatriz, new Consumer<List<Persona>>() {
-					@Override
-					public void accept(List<Persona> equipoGanador) {
-						// LOGICA NECESARIA PARA EL FUNCIONAMIENTO DE LA INTERFAZ
-						if (equipoGanador.isEmpty()) {
-							javax.swing.JOptionPane.showMessageDialog(PanelResolver.this,
-									"No es posible formar un equipo con esos requerimientos.", "Sin Solución",
-									javax.swing.JOptionPane.INFORMATION_MESSAGE);
-						} else {
-
-						}
-						btnResolver.setEnabled(true);
-					}
-				});
-			}
-		});
+        btnResolver.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                
+                String algoritmoSeleccionado = comboBox.getSelectedItem().toString();
+                
+                javax.swing.table.DefaultTableModel modelo = (javax.swing.table.DefaultTableModel) panelRequerimientos.getTabla().getModel();
+                Object[][] datosMatriz = new Object[4][2];
+                for (int i = 0; i < 4; i++) {
+                    datosMatriz[i][0] = modelo.getValueAt(i, 0);
+                    datosMatriz[i][1] = modelo.getValueAt(i, 1);
+                }
+                
+                btnResolver.setEnabled(false);
+                
+                logicaEquilibria.calcularEquipo(algoritmoSeleccionado, datosMatriz, new Consumer<List<Persona>>() {
+                    @Override
+                    public void accept(List<Persona> equipoGanador) {
+                        if (equipoGanador.isEmpty()) {
+                            javax.swing.JOptionPane.showMessageDialog(PanelResolver.this, 
+                                "No es posible formar un equipo con esos requerimientos.", 
+                                "Sin Solución", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                        } else {
+                        	panelRes.mostrarEquipo(equipoGanador);
+                        }
+                        btnResolver.setEnabled(true);
+                    }
+                });
+            }
+        });
 
 		// BARRA
 		barra = new JProgressBar();

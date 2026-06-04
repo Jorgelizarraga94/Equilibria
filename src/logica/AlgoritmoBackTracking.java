@@ -18,10 +18,13 @@ public class AlgoritmoBackTracking extends SwingWorker<List<Persona>, Void> {
 
     private static final Map<String, Integer> ROL_INDEX = new HashMap<>();
     static {
+
         ROL_INDEX.put("líder de proyecto", 0);
         ROL_INDEX.put("arquitecto", 1);
         ROL_INDEX.put("programador", 2);
         ROL_INDEX.put("tester", 3);
+        ROL_INDEX.put("líder", 0);
+        ROL_INDEX.put("lider", 0);
     }
 
     public AlgoritmoBackTracking(List<Persona> personasDisponibles, List<String[]> incompatibilidades, int[] requerimientos) {
@@ -58,7 +61,9 @@ public class AlgoritmoBackTracking extends SwingWorker<List<Persona>, Void> {
         buscarEquipo(indice + 1, combinacionActual, rolesActuales);
 
         Persona candidata = personasDisponibles.get(indice);
-        Integer rIdx = ROL_INDEX.get(candidata.getRol());
+        
+        // AQUÍ MODIFICAS LA LÍNEA:
+        Integer rIdx = ROL_INDEX.get(candidata.getRol().toLowerCase().trim());
 
         if (rIdx != null && rolesActuales[rIdx] < requerimientos[rIdx] && !esIncompatible(candidata, combinacionActual)) {
             combinacionActual.add(candidata);

@@ -7,7 +7,10 @@ import java.util.HashMap;
 
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CountDownLatch;
 import java.util.function.Consumer;
+
+import javax.swing.SwingWorker;
 
 import entidades.Incompatibilidad;
 import entidades.Persona;
@@ -69,8 +72,7 @@ public class LogicaEquilibria {
 	
 	
 	
-	// Logica FUERZA BRUTA , se vincula con PanelResolver
-	public void calcularEquipoOptimo(Object[][] datosTabla, Consumer<List<Persona>> interfazResultado) {
+	public void calcularEquipo(String algoritmoSeleccionado, Object[][] datosTabla, Consumer<List<Persona>> interfazResultado) {
         List<Persona> deLaGuiPersonas = new ArrayList<>(this.personas.values());
         
         List<String[]> deLaGuiIncompatibilidades = new ArrayList<>();
@@ -91,12 +93,54 @@ public class LogicaEquilibria {
             reqs[i] = Integer.parseInt(valor.toString().trim());
         }
         
-        AlgoritmoFuerzaBruta worker = new AlgoritmoFuerzaBruta(deLaGuiPersonas, deLaGuiIncompatibilidades, reqs) {
+        List<Persona> resultadoFB = new ArrayList<>();
+        List<Persona> resultadoBT = new ArrayList<>();
+        CountDownLatch latch = new CountDownLatch(2);
+        
+        SwingWorker<List<Persona>, Void> workerFB = new AlgoritmoFuerzaBruta(deLaGuiPersonas, deLaGuiIncompatibilidades, reqs) {
             @Override
             protected void done() {
                 try {
-                    List<Persona> equipoGanador = get();
-                    interfazResultado.accept(equipoGanador); 
+                    resultadoFB.addAll(get());
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                } finally {
+                    latch.countDown();
+                }
+            }
+        };
+        
+        SwingWorker<List<Persona>, Void> workerBT = new AlgoritmoBackTracking(deLaGuiPersonas, deLaGuiIncompatibilidades, reqs) {
+            @Override
+            protected void done() {
+                try {
+                    resultadoBT.addAll(get());
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                } finally {
+                    latch.countDown();
+                }
+            }
+        };
+        
+        workerFB.execute();
+        workerBT.execute();
+        
+        SwingWorker<List<Persona>, Void> orquestador = new SwingWorker<List<Persona>, Void>() {
+            @Override
+            protected List<Persona> doInBackground() throws Exception {
+                latch.await();
+                if ("BackTracking".equals(algoritmoSeleccionado)) {
+                    return resultadoBT;
+                } else {
+                    return resultadoFB;
+                }
+            }
+            
+            @Override
+            protected void done() {
+                try {
+                    interfazResultado.accept(get());
                 } catch (Exception ex) {
                     ex.printStackTrace();
                     interfazResultado.accept(new ArrayList<>());
@@ -104,48 +148,6 @@ public class LogicaEquilibria {
             }
         };
         
-        worker.execute();
+        orquestador.execute();
     }
-	
-	// Logica BACK TRACKING, debería ser vinculado al PanelResolver (Todavía no lo hace)
-	public void calcularEquipoBacktracking(Object[][] datosTabla, Consumer<List<Persona>> interfazResultado) {
-        List<Persona> deLaGuiPersonas = new ArrayList<>(this.personas.values());
-        
-        List<String[]> deLaGuiIncompatibilidades = new ArrayList<>();
-        for (Incompatibilidad inc : this.incompatibilidades) {
-            deLaGuiIncompatibilidades.add(new String[]{
-                inc.getPersona1().getNombre(),
-                inc.getPersona2().getNombre()
-            });
-        }
-        
-        int[] reqs = new int[4];
-        for (int i = 0; i < 4; i++) {
-            Object valor = datosTabla[i][1];
-            if (valor == null) {
-                interfazResultado.accept(new ArrayList<>());
-                return;
-            }
-            reqs[i] = Integer.parseInt(valor.toString().trim());
-        }
-        
-        AlgoritmoBackTracking worker = new AlgoritmoBackTracking(deLaGuiPersonas, deLaGuiIncompatibilidades, reqs) {
-            @Override
-            protected void done() {
-                try {
-                    List<Persona> equipoGanador = get();
-                    interfazResultado.accept(equipoGanador); 
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                    interfazResultado.accept(new ArrayList<>());
-                }
-            }
-        };
-        
-        worker.execute();
-    }
-
-	
-	
-	
 }

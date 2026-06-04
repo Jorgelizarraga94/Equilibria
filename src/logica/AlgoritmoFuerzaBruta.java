@@ -18,10 +18,13 @@ public class AlgoritmoFuerzaBruta extends SwingWorker<List<Persona>, Void> {
     
     private static final Map<String, Integer> ROL_INDEX = new HashMap<>();
     static {
+
         ROL_INDEX.put("líder de proyecto", 0);
         ROL_INDEX.put("arquitecto", 1);
         ROL_INDEX.put("programador", 2);
         ROL_INDEX.put("tester", 3);
+        ROL_INDEX.put("líder", 0);
+        ROL_INDEX.put("lider", 0);
     }
 
     public AlgoritmoFuerzaBruta(List<Persona> personasDisponibles, List<String[]> incompatibilidades, int[] requerimientos) {
@@ -75,7 +78,9 @@ public class AlgoritmoFuerzaBruta extends SwingWorker<List<Persona>, Void> {
     private boolean cumpleRequerimientos(List<Persona> candidatos) {
         int[] contadorRoles = new int[4];
         for (Persona p : candidatos) {
-            Integer idx = ROL_INDEX.get(p.getRol());
+            // AQUÍ MODIFICAS LA LÍNEA:
+            Integer idx = ROL_INDEX.get(p.getRol().toLowerCase().trim());
+            
             if (idx != null) contadorRoles[idx]++;
         }
         for (int i = 0; i < requerimientos.length; i++) {
