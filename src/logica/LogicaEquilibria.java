@@ -33,7 +33,10 @@ public class LogicaEquilibria {
 	//List<Equipo> equiposGenerados; //Lista de equipos generados luego de llamar a generar equipo (calcular backtracking o heuristica)
 	private List<Incompatibilidad> incompatibilidades = new ArrayList<>(); //Lista de incompatibilidades entre personas (si es que hay alguna)
 	//Lo manejo con la clase incompatibilidad, que tiene dos personas, y si esas dos personas estan en el mismo equipo, ese equipo no es valido
+	List<Persona> resultadoFB;
+	
 
+	List<Persona> resultadoBT;
 	//Creo que se deberia hacer lo mismo con la lista de equipos
 	//Crear una nueva clase que sea equipos y esta tenga los requerimientos necesarios para formar ese equipo
 	//luego el algoritomo tendra que hacer lo suyo con esa informacion, para generar los equipos que cumplan con esos requerimientos.
@@ -51,6 +54,13 @@ public class LogicaEquilibria {
 		return personas;
 	}
 
+	public List<Persona> getResultadoFB() {
+		return resultadoFB;
+	}
+
+	public List<Persona> getResultadoBT() {
+		return resultadoBT;
+	}
 	//Para agregar dos personas incompatibles entre si, se agrega a la lista de incompatibilidades una nueva
 	public void agregarIncompatibilidad(Persona persona1, Persona persona2) {
 		incompatibilidades.add(new Incompatibilidad(persona1, persona2));
@@ -93,8 +103,8 @@ public class LogicaEquilibria {
             reqs[i] = Integer.parseInt(valor.toString().trim());
         }
         
-        List<Persona> resultadoFB = new ArrayList<>();
-        List<Persona> resultadoBT = new ArrayList<>();
+        resultadoFB = new ArrayList<>();
+        resultadoBT = new ArrayList<>();
         CountDownLatch latch = new CountDownLatch(2);
         
         SwingWorker<List<Persona>, Void> workerFB = new AlgoritmoFuerzaBruta(deLaGuiPersonas, deLaGuiIncompatibilidades, reqs) {
@@ -111,10 +121,13 @@ public class LogicaEquilibria {
         };
         
         SwingWorker<List<Persona>, Void> workerBT = new AlgoritmoBackTracking(deLaGuiPersonas, deLaGuiIncompatibilidades, reqs) {
+        	long tiempoInicioBT = System.currentTimeMillis();
             @Override
             protected void done() {
                 try {
                     resultadoBT.addAll(get());
+                    long tiempoFinBT = System.currentTimeMillis();
+    	            long tiempoTotal = tiempoFinBT - tiempoInicioBT;
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 } finally {
@@ -132,8 +145,11 @@ public class LogicaEquilibria {
                 latch.await();
                 if ("BackTracking".equals(algoritmoSeleccionado)) {
                     return resultadoBT;
-                } else {
+                } else if("Fuerza Bruta".equals(algoritmoSeleccionado)){
                     return resultadoFB;
+                }
+                else {
+                	throw new RuntimeException("Heuristica no programada");
                 }
             }
             
@@ -150,4 +166,37 @@ public class LogicaEquilibria {
         
         orquestador.execute();
     }
+	// En los atributos de tu panel/controlador:
+	private ReporteEjecucion reporteBT;
+	private ReporteEjecucion reporteFB;
+
+	// ... Dentro de calcularEquipo ...
+
+	long tiempoInicioBT = System.currentTimeMillis();
+
+	SwingWorker<List<Persona>, Void> workerBT = new AlgoritmoBackTracking(deLaGuiPersonas, deLaGuiIncompatibilidades, reqs) {
+	    @Override
+	    protected void done() {
+	        try {
+	            List<Persona> equipoEncontrado = get();
+	            long tiempoFinBT = System.currentTimeMillis();
+	            long tiempoTotal = tiempoFinBT - tiempoInicioBT;
+	            
+	            // Le pedimos al algoritmo las métricas de su ejecución interna
+	            // Nota: Asumo que tu clase AlgoritmoBackTracking tiene getters para estas variables
+	            int nodos = this.getNodosContados();
+	            int casosBase = this.getCasosBaseContados();
+	            int podas = this.getPodasContadas();
+	            int puntaje = this.getMejorPuntajeEncontrado();
+	            
+	            // Guardamos el reporte completo del algoritmo en el atributo del controlador
+	            reporteBT = new ReporteEjecucion(equipoEncontrado, puntaje, tiempoTotal, nodos, casosBase, podas);
+	            
+	        } catch (Exception ex) {
+	            ex.printStackTrace();
+	        } finally {
+	            latch.countDown();
+	        }
+	    }
+	};
 }

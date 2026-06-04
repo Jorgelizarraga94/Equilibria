@@ -20,14 +20,14 @@ import javax.swing.JFileChooser;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.awt.event.ActionEvent;
+import javax.swing.DefaultComboBoxModel;
 
 public class VentanaAgregarPersona extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textFieldNombre;
-	private JTextField textFieldRol;
-	private JTextField textFieldCalificación;
-
+	private JComboBox comboBoxRol;
+	private JComboBox comboBoxCalificacion;
 	LogicaEquilibria logicaEquilibria;
 	PanelPersonas panelPersonas;
 	private JTextField textFieldFoto;
@@ -52,7 +52,7 @@ public class VentanaAgregarPersona extends JFrame {
 		contentPane.add(lblNombre);
 
 		JLabel lblRol = new JLabel("Rol");
-		lblRol.setBounds(45, 89, 65, 14);
+		lblRol.setBounds(45, 89, 75, 14);
 		contentPane.add(lblRol);
 
 		JLabel lblCalificacin = new JLabel("Calificación");
@@ -68,15 +68,10 @@ public class VentanaAgregarPersona extends JFrame {
 		contentPane.add(textFieldNombre);
 		textFieldNombre.setColumns(10);
 
-		textFieldRol = new JTextField();
-		textFieldRol.setColumns(10);
-		textFieldRol.setBounds(180, 86, 123, 20);
-		contentPane.add(textFieldRol);
-
-		textFieldCalificación = new JTextField();
-		textFieldCalificación.setColumns(10);
-		textFieldCalificación.setBounds(180, 111, 123, 20);
-		contentPane.add(textFieldCalificación);
+		comboBoxRol = new JComboBox();
+		comboBoxRol.setModel(new DefaultComboBoxModel(new String[] { "Lider", "Arquitecto", "Programador", "Tester" }));
+		comboBoxRol.setBounds(180, 85, 123, 22);
+		contentPane.add(comboBoxRol);
 
 		JButton btnNewButton = new JButton("Agregar");
 		btnNewButton.addActionListener(new ActionListener() {
@@ -97,6 +92,11 @@ public class VentanaAgregarPersona extends JFrame {
 		btnAgregarImagen.setBounds(180, 180, 123, 23);
 		contentPane.add(btnAgregarImagen);
 
+		comboBoxCalificacion = new JComboBox();
+		comboBoxCalificacion.setModel(new DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5" }));
+		comboBoxCalificacion.setBounds(180, 110, 123, 22);
+		contentPane.add(comboBoxCalificacion);
+
 		btnAgregarImagen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				seleccionarImagen();
@@ -106,8 +106,8 @@ public class VentanaAgregarPersona extends JFrame {
 	}
 
 	private void agregarPersona() {
-		logicaEquilibria.agregarPersona(textFieldNombre.getText(), textFieldRol.getText(),
-				Integer.parseInt(textFieldCalificación.getText()), textFieldFoto.getText());
+		logicaEquilibria.agregarPersona(textFieldNombre.getText(), comboBoxRol.getModel().getSelectedItem().toString(),
+				Integer.parseInt(comboBoxCalificacion.getSelectedItem().toString()), textFieldFoto.getText());
 		panelPersonas.refrescarTabla();
 		this.dispose();
 	}

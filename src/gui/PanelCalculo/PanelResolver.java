@@ -46,7 +46,7 @@ public class PanelResolver extends JPanel {
 
 		this.logicaEquilibria = logica;
 		this.panelRequerimientos = panel;
-		this.panelRes=panelres;
+		this.panelRes = panelres;
 		initialize();
 	}
 
@@ -85,43 +85,42 @@ public class PanelResolver extends JPanel {
 		add(panelStats, BorderLayout.CENTER);
 
 		comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"BackTracking", "FuerzaBruta", "Heuristica"}));
+		comboBox.setModel(new DefaultComboBoxModel(new String[] { "BackTracking", "FuerzaBruta", "Heuristica" }));
 		comboBox.setBounds(0, 12, 174, 23);
 
 		panelStats.add(comboBox);
-		
+
 		btnResolver = new JButton("GENERAR EQUIPO");
 		btnResolver.setBounds(206, 12, 153, 23);
 		panelStats.add(btnResolver);
-        btnResolver.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                
-                String algoritmoSeleccionado = comboBox.getSelectedItem().toString();
-                
-                javax.swing.table.DefaultTableModel modelo = (javax.swing.table.DefaultTableModel) panelRequerimientos.getTabla().getModel();
-                Object[][] datosMatriz = new Object[4][2];
-                for (int i = 0; i < 4; i++) {
-                    datosMatriz[i][0] = modelo.getValueAt(i, 0);
-                    datosMatriz[i][1] = modelo.getValueAt(i, 1);
-                }
-                
-                btnResolver.setEnabled(false);
-                
-                logicaEquilibria.calcularEquipo(algoritmoSeleccionado, datosMatriz, new Consumer<List<Persona>>() {
-                    @Override
-                    public void accept(List<Persona> equipoGanador) {
-                        if (equipoGanador.isEmpty()) {
-                            javax.swing.JOptionPane.showMessageDialog(PanelResolver.this, 
-                                "No es posible formar un equipo con esos requerimientos.", 
-                                "Sin Solución", javax.swing.JOptionPane.INFORMATION_MESSAGE);
-                        } else {
-                        	panelRes.mostrarEquipo(equipoGanador);
-                        }
-                        btnResolver.setEnabled(true);
-                    }
-                });
-            }
-        });
+		btnResolver.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				String algoritmoSeleccionado = comboBox.getSelectedItem().toString();
+
+				javax.swing.table.DefaultTableModel modelo = (javax.swing.table.DefaultTableModel) panelRequerimientos
+						.getTabla().getModel();
+				Object[][] datosMatriz = new Object[4][2];
+				for (int i = 0; i < 4; i++) {
+					datosMatriz[i][0] = modelo.getValueAt(i, 0);
+					datosMatriz[i][1] = modelo.getValueAt(i, 1);
+				}
+
+				logicaEquilibria.calcularEquipo(algoritmoSeleccionado, datosMatriz, new Consumer<List<Persona>>() {
+					@Override
+					public void accept(List<Persona> equipoGanador) {
+						if (equipoGanador.isEmpty()) {
+							javax.swing.JOptionPane.showMessageDialog(PanelResolver.this,
+									"No es posible formar un equipo con esos requerimientos.", "Sin Solución",
+									javax.swing.JOptionPane.INFORMATION_MESSAGE);
+						} else {
+							panelRes.mostrarEquipo(equipoGanador);
+						}
+						btnResolver.setEnabled(false);
+					}
+				});
+			}
+		});
 
 		// BARRA
 		barra = new JProgressBar();

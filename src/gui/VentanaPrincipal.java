@@ -26,6 +26,7 @@ public class VentanaPrincipal extends JFrame {
 	public VentanaPrincipal(LogicaEquilibria logica) {
 		this.logicaEquilibria = logica;
 		initialize();
+
 	}
 
 	private void initialize() {
@@ -40,6 +41,7 @@ public class VentanaPrincipal extends JFrame {
 
 		// PERSONAS
 		panelPersonas = new PanelPersonas(logicaEquilibria);
+		panelPersonas.refrescarTabla();
 
 		panelPersonas.setBounds(10, 10, 450, 300);
 
@@ -58,21 +60,21 @@ public class VentanaPrincipal extends JFrame {
 		panelRequerimientos.setBounds(930, 10, 430, 300);
 
 		getContentPane().add(panelRequerimientos);
-		
-		// RESULTADO 
-		panelResultado = new PanelResultado();
+
+		// RESULTADO
+		panelResultado = new PanelResultado(logicaEquilibria);
+		panelResultado.getTabla().setBounds(7, 77, 548, 0);
 
 		panelResultado.setBounds(434, 321, 940, 400);
 
 		getContentPane().add(panelResultado);
 
 		// RESOLVER
-		panelResolver = new PanelResolver(logicaEquilibria , panelRequerimientos, panelResultado);
+		panelResolver = new PanelResolver(logicaEquilibria, panelRequerimientos, panelResultado);
 
 		panelResolver.setBounds(10, 320, 400, 400);
 
 		getContentPane().add(panelResolver);
-
 
 	}
 
