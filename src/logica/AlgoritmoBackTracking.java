@@ -14,8 +14,12 @@ public class AlgoritmoBackTracking extends SwingWorker<List<Persona>, Void> {
     private int[] requerimientos;
 
     private List<Persona> mejorEquipo;
-    private int mejorPuntaje;
-
+    private int mejorPuntaje=0;
+    private int nodosRecorridos = 0;
+    private int casosBaseContados = 0;
+    private int podasRealizadas = 0;
+    private long tiempoMs = 0;
+    
     private static final Map<String, Integer> ROL_INDEX = new HashMap<>();
     static {
 
@@ -37,6 +41,8 @@ public class AlgoritmoBackTracking extends SwingWorker<List<Persona>, Void> {
 
     @Override
     protected List<Persona> doInBackground() throws Exception {
+        long inicio = System.currentTimeMillis();
+
         mejorEquipo = new ArrayList<>();
         mejorPuntaje = -1;
 
@@ -44,27 +50,30 @@ public class AlgoritmoBackTracking extends SwingWorker<List<Persona>, Void> {
         int[] rolesActuales = new int[4];
         
         buscarEquipo(0, combinacionActual, rolesActuales);
+        this.tiempoMs = System.currentTimeMillis() - inicio;
 
         return mejorPuntaje == -1 ? new ArrayList<>() : mejorEquipo;
     }
 
     private void buscarEquipo(int indice, List<Persona> combinacionActual, int[] rolesActuales) {
+        this.nodosRecorridos++;
         if (cumpleTodosRequerimientos(rolesActuales)) {
+            this.casosBaseContados++;
             evaluarSolucion(combinacionActual);
             return;
         }
-
-        if (indice == personasDisponibles.size() || superaAlgonRequerimiento(rolesActuales)) {
+        if (superaAlgonRequerimiento(rolesActuales)) {
+            this.podasRealizadas++;
             return;
         }
-
+        if (indice == personasDisponibles.size()) {
+            this.casosBaseContados++;
+            return;
+        }
         buscarEquipo(indice + 1, combinacionActual, rolesActuales);
 
         Persona candidata = personasDisponibles.get(indice);
-        
-        // AQUÍ MODIFICAS LA LÍNEA:
         Integer rIdx = ROL_INDEX.get(candidata.getRol().toLowerCase().trim());
-
         if (rIdx != null && rolesActuales[rIdx] < requerimientos[rIdx] && !esIncompatible(candidata, combinacionActual)) {
             combinacionActual.add(candidata);
             rolesActuales[rIdx]++;
@@ -73,6 +82,8 @@ public class AlgoritmoBackTracking extends SwingWorker<List<Persona>, Void> {
 
             combinacionActual.remove(combinacionActual.size() - 1);
             rolesActuales[rIdx]--;
+        } else {
+            this.podasRealizadas++; 
         }
     }
 
@@ -126,4 +137,21 @@ public class AlgoritmoBackTracking extends SwingWorker<List<Persona>, Void> {
             return new ArrayList<>();
         }
     }
+    public int getMejorPuntaje() { 
+    	return this.mejorPuntaje;
+}
+    
+    public int getNodos() {
+    	return this.nodosRecorridos; 
+    	}
+    public int getCasosBase() { 
+    	return this.casosBaseContados; 
+    	}
+    public int getPodas() {
+    	return this.podasRealizadas; 
+    	}
+    public long getTiempoMs() { 
+    	return this.tiempoMs;
+    	}
+
 }

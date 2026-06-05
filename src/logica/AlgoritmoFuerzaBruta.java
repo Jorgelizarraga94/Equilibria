@@ -14,7 +14,11 @@ public class AlgoritmoFuerzaBruta extends SwingWorker<List<Persona>, Void> {
     private int[] requerimientos;
 
     private List<Persona> mejorEquipo;
-    private int mejorPuntaje;
+    private int mejorPuntaje=0;
+    private int nodosRecorridos = 0;
+    private int casosBaseContados = 0;
+    private int podasRealizadas = 0;
+    private long tiempoMs = 0;
     
     private static final Map<String, Integer> ROL_INDEX = new HashMap<>();
     static {
@@ -37,23 +41,27 @@ public class AlgoritmoFuerzaBruta extends SwingWorker<List<Persona>, Void> {
 
     @Override
     protected List<Persona> doInBackground() throws Exception {
+        long inicio = System.currentTimeMillis();
+
         mejorEquipo = new ArrayList<>();
         mejorPuntaje = -1;
         
         List<Persona> combinacionActual = new ArrayList<>();
         generarCombinaciones(0, combinacionActual);
+        this.tiempoMs = System.currentTimeMillis() - inicio;
         
         return mejorPuntaje == -1 ? new ArrayList<>() : mejorEquipo;
     }
-
     private void generarCombinaciones(int indice, List<Persona> combinacionActual) {
+        this.nodosRecorridos++;
+
         if (indice == personasDisponibles.size()) {
+            this.casosBaseContados++; 
+            
             evaluarSolucion(combinacionActual);
             return;
         }
-
         generarCombinaciones(indice + 1, combinacionActual);
-
         combinacionActual.add(personasDisponibles.get(indice));
         generarCombinaciones(indice + 1, combinacionActual);
         combinacionActual.remove(combinacionActual.size() - 1);
@@ -110,4 +118,16 @@ public class AlgoritmoFuerzaBruta extends SwingWorker<List<Persona>, Void> {
             return new ArrayList<>();
         }
     }
+    public int getMejorPuntaje() {
+    	return this.mejorPuntaje; 
+    	}
+    public int getNodos() {
+    	return this.nodosRecorridos; 
+    	}
+    public int getCasosBase() { 
+    	return this.casosBaseContados; 
+    	}
+    public long getTiempoMs() {
+    	return this.tiempoMs; 
+    	}
 }

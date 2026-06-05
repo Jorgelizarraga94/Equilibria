@@ -2,6 +2,7 @@ package gui.PanelCalculo;
 
 import entidades.Persona;
 import logica.LogicaEquilibria;
+import logica.ReporteEjecucion;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -14,11 +15,18 @@ import java.awt.event.ActionListener;
 import java.security.PrivateKey;
 import java.util.List;
 import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.DefaultComboBoxModel;
 
 public class PanelResultado extends JPanel {
 	private LogicaEquilibria logicaEquilibria;
 	private JTable tabla;
+
+	JLabel lblTiempo;
+	JLabel lblNodos;
+	JLabel lblCasosBase;
+	JLabel lblPodas;
+	JLabel lblPuntaje;
 
 	public PanelResultado(LogicaEquilibria logicaEquilibria) {
 		this.logicaEquilibria = logicaEquilibria;
@@ -42,64 +50,116 @@ public class PanelResultado extends JPanel {
 
 		JComboBox comboBoxSeleccionAlgoritmo = new JComboBox();
 		comboBoxSeleccionAlgoritmo
-				.setModel(new DefaultComboBoxModel(new String[] { "BackTracking", "Fuerza Bruta", "Heuristica" }));
+				.setModel(new DefaultComboBoxModel(new String[] { "BackTracking", "FuerzaBruta", "Heuristica" }));
 		comboBoxSeleccionAlgoritmo.setBounds(756, 11, 166, 22);
 		add(comboBoxSeleccionAlgoritmo);
 
 		comboBoxSeleccionAlgoritmo.addActionListener(new ActionListener() {
+	        @Override
+	        public void actionPerformed(ActionEvent e) {
+	            String algoritmoSeleccionado = (String) comboBoxSeleccionAlgoritmo.getSelectedItem();
+	            java.awt.Container padre = comboBoxSeleccionAlgoritmo.getParent();
+	            while (padre != null) {
+	                for (java.awt.Component comp : padre.getComponents()) {
+	                    if (comp.getClass().getSimpleName().equals("PanelResolver")) {
+	                        try {
+	                            JLabel txtTiempo = (JLabel) comp.getClass().getMethod("getLblTiempo").invoke(comp);
+	                            JLabel txtNodos = (JLabel) comp.getClass().getMethod("getLblNodos").invoke(comp);
+	                            JLabel txtCasos = (JLabel) comp.getClass().getMethod("getLblCasosBase").invoke(comp);
+	                            JLabel txtPodas = (JLabel) comp.getClass().getMethod("getLblPodas").invoke(comp);
+	                            JLabel txtPuntaje = (JLabel) comp.getClass().getMethod("getLblPuntaje").invoke(comp);
+	                            actualizarResultado(algoritmoSeleccionado, txtTiempo, txtNodos, txtCasos, txtPodas, txtPuntaje);
+	                            return;
+	                        } catch (Exception ex) {
+	                            break;
+	                        }
+	                    }
+	                }
+	                padre = padre.getParent();
+	            }
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				String algoritmoSeleccionado = (String) comboBoxSeleccionAlgoritmo.getSelectedItem();
-
-				actualizarResultado(algoritmoSeleccionado);
-
-			}
-
-		});
+	            actualizarResultado(algoritmoSeleccionado, lblTiempo, lblNodos, lblCasosBase, lblPodas, lblPuntaje);
+	        }
+	    });
 	}
 
 	public void mostrarEquipo(List<Persona> equipo) {
-		DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
-		modelo.setRowCount(0);
+	    DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
+	    modelo.setRowCount(0);
 
-		for (Persona p : equipo) {
-			Object[] fila = new Object[] { p.getNombre(), p.getRol(), p.getCalificacion(), p.getFoto() };
-			modelo.addRow(fila);
-		}
+	    for (Persona p : equipo) {
+	        Object[] fila = new Object[] { p.getNombre(), p.getRol(), p.getCalificacion(), p.getFoto() };
+	        modelo.addRow(fila);
+	    }
+	    modelo.fireTableDataChanged();
 	}
 
-	public void actualizarResultado(String algoritmoSeleccionado) {
-		switch (algoritmoSeleccionado) {
-		case "Backtracking":
-			mostrarEquipo(logicaEquilibria.getResultadoBT());
+	public void actualizarResultado(String algoritmoSeleccionado, JLabel tiempo, JLabel nodos, JLabel casos, JLabel podas, JLabel puntaje) {
+	    String algoritmo = algoritmoSeleccionado.trim();
+	    
+	    switch (algoritmo) {
+	        case "BackTracking":
+	            ReporteEjecucion reporteBT = logicaEquilibria.getReporte("BackTracking");
+	            if (reporteBT != null) {
+	                mostrarEquipo(reporteBT.getEquipoGanador());
+	                mostrarMetricas(reporteBT, tiempo, nodos, casos, podas, puntaje);
+	            }
+	            break;
 
-			// 1. Conseguís los datos que calculó Backtracking
-			// 2. Pasás los datos a la tabla (como vimos con el Map o lista)
-			// Ejemplo: cargarDatosTabla(resultadoBacktracking, table);
-			System.out.println("Mostrando resultado de Backtracking...");
-			break;
+	        case "FuerzaBruta":
+	            ReporteEjecucion reporteFB = logicaEquilibria.getReporte("FuerzaBruta");
+	            if (reporteFB != null) {
+	                mostrarEquipo(reporteFB.getEquipoGanador());
+	                mostrarMetricas(reporteFB, tiempo, nodos, casos, podas, puntaje);
+	            }
+	            break;
 
-		case "Fuerza Bruta":
-			mostrarEquipo(logicaEquilibria.getResultadoFB());
+	        case "Heurística":
+	        case "Heuristica":
+	        case "AlgoritmoHeuristico":
+	            ReporteEjecucion reporteAH = logicaEquilibria.getReporte("Heuristica");
+	            if (reporteAH != null) {
+	                mostrarEquipo(reporteAH.getEquipoGanador());
+	                mostrarMetricas(reporteAH, tiempo, nodos, casos, podas, puntaje);
+	            }
+	            break;
 
-			// Lo mismo para Fuerza Bruta
-			// Ejemplo: cargarDatosTabla(resultadoFuerzaBruta, table);
-			System.out.println("Mostrando resultado de Fuerza Bruta...");
-			break;
+	        default:
+	            break;
+	    }
+	    
+	    if (tiempo != null && tiempo.getParent() != null) {
+	        tiempo.getParent().revalidate();
+	        tiempo.getParent().repaint();
+	    }
+	}
 
-		case "Heuristica":
-			// Lo mismo para la Heurística
-			// Ejemplo: cargarDatosTabla(resultadoHeuristica, table);
-			System.out.println("Mostrando resultado de Heurística...");
-			break;
-
-		default:
-			break;
-		}
+	public void mostrarMetricas(ReporteEjecucion reporte, JLabel tiempo, JLabel nodos, JLabel casos, JLabel podas, JLabel puntaje) {
+	    if (reporte != null) {
+	        if (tiempo != null) tiempo.setText("Tiempo: " + reporte.getTiempoDeEjecucionMs() + " ms");
+	        if (nodos != null) nodos.setText("Nodos recorridos: " + reporte.getNodosRecorridos());
+	        if (casos != null) casos.setText("Casos base: " + reporte.getCasosBaseContados());
+	        if (podas != null) podas.setText("Podas realizadas: " + reporte.getPodasRealizadas());
+	        if (puntaje != null) puntaje.setText("Mejor puntaje: " + reporte.getPuntajeMaximoObtenido());
+	    }
 	}
 
 	public JTable getTabla() {
 		return tabla;
 	}
+	public JLabel getLblTiempo() { 
+		return this.lblTiempo;
+		}
+	public JLabel getLblNodos() {
+		return this.lblNodos;
+}
+	public JLabel getLblCasosBase() {
+		return this.lblCasosBase; 
+		}
+	public JLabel getLblPodas() { 
+		return this.lblPodas; 
+		}
+	public JLabel getLblPuntaje() {
+		return this.lblPuntaje; 
+		}
 }

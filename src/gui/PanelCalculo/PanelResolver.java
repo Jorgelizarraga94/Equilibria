@@ -13,6 +13,7 @@ import entidades.Persona;
 import gui.PanelPersona.PanelRequerimientos;
 import logica.AlgoritmoFuerzaBruta;
 import logica.LogicaEquilibria;
+import logica.ReporteEjecucion;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -94,39 +95,46 @@ public class PanelResolver extends JPanel {
 		btnResolver.setBounds(206, 12, 153, 23);
 		panelStats.add(btnResolver);
 		btnResolver.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		    public void actionPerformed(ActionEvent e) {
 
-				String algoritmoSeleccionado = comboBox.getSelectedItem().toString();
+		        String algoritmoSeleccionado = comboBox.getSelectedItem().toString();
 
-				javax.swing.table.DefaultTableModel modelo = (javax.swing.table.DefaultTableModel) panelRequerimientos
-						.getTabla().getModel();
-				Object[][] datosMatriz = new Object[4][2];
-				for (int i = 0; i < 4; i++) {
-					datosMatriz[i][0] = modelo.getValueAt(i, 0);
-					datosMatriz[i][1] = modelo.getValueAt(i, 1);
-				}
+		        javax.swing.table.DefaultTableModel modelo = (javax.swing.table.DefaultTableModel) panelRequerimientos
+		                .getTabla().getModel();
+		        Object[][] datosMatriz = new Object[4][2];
+		        for (int i = 0; i < 4; i++) {
+		            datosMatriz[i][0] = modelo.getValueAt(i, 0);
+		            datosMatriz[i][1] = modelo.getValueAt(i, 1);
+		        }
 
-				logicaEquilibria.calcularEquipo(algoritmoSeleccionado, datosMatriz, new Consumer<List<Persona>>() {
-					@Override
-					public void accept(List<Persona> equipoGanador) {
-						if (equipoGanador.isEmpty()) {
-							javax.swing.JOptionPane.showMessageDialog(PanelResolver.this,
-									"No es posible formar un equipo con esos requerimientos.", "Sin Solución",
-									javax.swing.JOptionPane.INFORMATION_MESSAGE);
-						} else {
-							panelRes.mostrarEquipo(equipoGanador);
-						}
-						btnResolver.setEnabled(false);
-					}
-				});
-			}
+		        logicaEquilibria.calcularEquipo(algoritmoSeleccionado, datosMatriz, new Consumer<ReporteEjecucion>() {
+		            @Override
+		            public void accept(ReporteEjecucion reporte) {
+		                
+		                List<Persona> equipoGanador = reporte.getEquipoGanador();
+
+		                if (equipoGanador.isEmpty()) {
+		                    javax.swing.JOptionPane.showMessageDialog(PanelResolver.this,
+		                            "No es posible formar un equipo con esos requerimientos.", "Sin Solución",
+		                            javax.swing.JOptionPane.INFORMATION_MESSAGE);
+		                } else {
+		                    panelRes.mostrarEquipo(equipoGanador); 
+		                    panelRes.mostrarMetricas(
+		                        reporte, 
+		                        lblTiempo, 
+		                        lblNodos, 
+		                        lblCasosBase, 
+		                        lblPodas, 
+		                        lblPuntaje
+		                    ); 
+		                }
+		                btnResolver.setEnabled(false);
+		            }
+		        });
+		    }
 		});
-
-		// BARRA
 		barra = new JProgressBar();
-
 		barra.setStringPainted(true);
-
 		add(barra, BorderLayout.SOUTH);
 	}
 
