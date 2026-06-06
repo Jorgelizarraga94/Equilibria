@@ -3,6 +3,7 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 import entidades.Persona;
+import entidades.Requerimiento;
 import logica.AlgoritmoFuerzaBruta;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +13,7 @@ public class AFBTest {
     private AlgoritmoFuerzaBruta solver;
     private List<Persona> personasDisponibles;
     private List<String[]> incompatibilidades;
-    private int[] requerimientos;
+    private List<Requerimiento> requerimientos;
 
  // Líderes (Necesitamos 1)
  private final Persona liderPerfecto = new Persona("Carlos", "líder de proyecto", 5);
@@ -42,7 +43,11 @@ public class AFBTest {
  public void inicio() {
      personasDisponibles = new ArrayList<>();
      incompatibilidades = new ArrayList<>();
-     requerimientos = new int[]{1, 2, 4, 5}; 
+     requerimientos = new ArrayList<>();
+     requerimientos.add(new Requerimiento("Lider", 1));
+     requerimientos.add(new Requerimiento("arquitecto", 2 ));
+     requerimientos.add(new Requerimiento("programador", 5 ));
+     requerimientos.add(new Requerimiento("tester", 2 ));
  }
 
     private List<Persona> inicializarYEjecutar() {

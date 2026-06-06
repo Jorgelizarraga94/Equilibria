@@ -3,44 +3,86 @@ package gui.PanelPersona;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
+
+import entidades.Persona;
+import entidades.Requerimiento;
+import gui.VentanasEmergentes.VentanaAgregarRequerimientos;
+import logica.LogicaEquilibria;
+
 import java.awt.BorderLayout;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class PanelRequerimientos extends JPanel {
 
-    private JTable tabla;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private JTable tabla;
+	VentanaAgregarRequerimientos ventanaAgregarRequerimientos;
+	LogicaEquilibria logicaEquilibria;
 
-    public PanelRequerimientos() {
+	public PanelRequerimientos(LogicaEquilibria logica) {
+		this.logicaEquilibria = logica;
+		initialize();
+	}
 
-        initialize();
-    }
+	private void initialize() {
 
-    private void initialize() {
+		setBorder(new TitledBorder("3. Requerimientos"));
+		setLayout(null);
 
-        setLayout(new BorderLayout());
+		tabla = new JTable();
 
-        setBorder(
-                new TitledBorder("3. Requerimientos")
-        );
+		tabla.setModel(new DefaultTableModel(new Object[][] {}, new String[] { "Rol", "Cantidad" }));
 
-        tabla = new JTable();
+		JScrollPane scrollPane = new JScrollPane(tabla);
+		scrollPane.setBounds(6, 52, 434, 242);
 
-        tabla.setModel(new DefaultTableModel(
-                new Object[][] {{"Líder", 1}, {"Arquitecto", 2}, {"Programador", 4}, {"Tester", 5}},
-                new String[] {
-                        "Rol",
-                        "Cantidad"
-                }
-        ));
+		add(scrollPane);
 
-        JScrollPane scrollPane =
-                new JScrollPane(tabla);
+		JButton btnNewAgregarRequerimientos = new JButton("Agregar");
+		btnNewAgregarRequerimientos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				abrirVentanaRequerimiento();
+			}
+		});
+		btnNewAgregarRequerimientos.setBounds(10, 18, 89, 23);
+		add(btnNewAgregarRequerimientos);
 
-        add(scrollPane, BorderLayout.CENTER);
-    }
+		JButton btnNewEliminarRequerimientos = new JButton("Eliminar");
+		btnNewEliminarRequerimientos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnNewEliminarRequerimientos.setBounds(109, 18, 89, 23);
+		add(btnNewEliminarRequerimientos);
+	}
 
-    public JTable getTabla() {
-        return tabla;
-    }
+	public void abrirVentanaRequerimiento() {
+		VentanaAgregarRequerimientos ventanaAgregarRequerimientos = new VentanaAgregarRequerimientos(logicaEquilibria,
+				this);
+		ventanaAgregarRequerimientos.setVisible(true);
+		ventanaAgregarRequerimientos.setLocationRelativeTo(null);
+	}
+
+	public JTable getTabla() {
+		return tabla;
+	}
+
+	public void refrescarTabla() {
+		DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
+		modelo.setRowCount(0);
+		for (Requerimiento requerimiento : logicaEquilibria.getRequerimientos()) {
+			modelo.addRow(new Object[] { requerimiento.getRol(), requerimiento.getCantidad() });
+		}
+	}
+
 }

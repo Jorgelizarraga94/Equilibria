@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 import entidades.Persona;
+import entidades.Requerimiento;
 import logica.AlgoritmoHeuristico;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +13,7 @@ public class AHTest {
     private AlgoritmoHeuristico solver;
     private List<Persona> personasDisponibles;
     private List<String[]> incompatibilidades;
-    private int[] requerimientos;
+    private List<Requerimiento> requerimientos;
     
     private final Persona liderPerfecto = new Persona("Carlos", "lider", 5);
     private final Persona liderBueno = new Persona("Ana", "lider", 4);
@@ -37,7 +38,11 @@ public class AHTest {
     public void setUp() {
         personasDisponibles = new ArrayList<>();
         incompatibilidades = new ArrayList<>();
-        requerimientos = new int[]{1, 2, 4, 5}; 
+        requerimientos = new ArrayList<>();
+        requerimientos.add(new Requerimiento("Lider", 1));
+        requerimientos.add(new Requerimiento("arquitecto", 2 ));
+        requerimientos.add(new Requerimiento("programador", 5 ));
+        requerimientos.add(new Requerimiento("tester", 2 ));
     }
 
     private List<Persona> inicializarYEjecutar() {

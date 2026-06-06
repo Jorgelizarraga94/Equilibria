@@ -6,16 +6,20 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 import java.util.function.Consumer;
+
+import javax.swing.JComboBox;
+import javax.swing.JTextField;
 import javax.swing.SwingWorker;
 import entidades.Incompatibilidad;
 import entidades.Persona;
+import entidades.Requerimiento;
 
 public class LogicaEquilibria {
 	private ReporteEjecucion reporteBT;
 	private ReporteEjecucion reporteFB;
 	private ReporteEjecucion reporteAH;
 	Map<Long, Persona> personas = new HashMap<>();
-	Map<String, Integer> requerimientos;
+	private List<Requerimiento> requerimientos = new ArrayList<>();
 	private List<Incompatibilidad> incompatibilidades = new ArrayList<>();
 	List<Persona> resultadoFB;
     List<Persona> resultadoAH;
@@ -54,6 +58,16 @@ public class LogicaEquilibria {
 	public void eliminarIncopatibilidad(int indice) {
 		incompatibilidades.remove(indice);
 	}
+	
+	public void agregarRequerimientos(String rol, int cantidadRequerimiento) {
+		
+		requerimientos.add(new Requerimiento(rol, cantidadRequerimiento));
+	}
+	
+
+	public List<Requerimiento> getRequerimientos() {
+		return requerimientos;
+	}
 
 	public void calcularEquipo(String algoritmoSeleccionado, Object[][] datosTabla, Consumer<ReporteEjecucion> interfazResultado) {
         List<Persona> deLaGuiPersonas = new ArrayList<>(this.personas.values());
@@ -80,7 +94,7 @@ public class LogicaEquilibria {
         resultadoBT = new ArrayList<>();
         resultadoAH = new ArrayList<>();
         
-        AlgoritmoHeuristico solverAH = new AlgoritmoHeuristico(deLaGuiPersonas, deLaGuiIncompatibilidades, reqs);
+        AlgoritmoHeuristico solverAH = new AlgoritmoHeuristico(deLaGuiPersonas, deLaGuiIncompatibilidades, requerimientos);
         resultadoAH.addAll(solverAH.ejecutar());
         reporteAH = new ReporteEjecucion(
             resultadoAH, 
@@ -93,7 +107,7 @@ public class LogicaEquilibria {
 
         CountDownLatch latch = new CountDownLatch(2);
 
-        AlgoritmoFuerzaBruta workerFB = new AlgoritmoFuerzaBruta(deLaGuiPersonas, deLaGuiIncompatibilidades, reqs) {
+        AlgoritmoFuerzaBruta workerFB = new AlgoritmoFuerzaBruta(deLaGuiPersonas, deLaGuiIncompatibilidades, requerimientos) {
             @Override
             protected void done() {
                 try {
@@ -115,7 +129,7 @@ public class LogicaEquilibria {
             }
         };
 
-        AlgoritmoBackTracking workerBT = new AlgoritmoBackTracking(deLaGuiPersonas, deLaGuiIncompatibilidades, reqs) {
+        AlgoritmoBackTracking workerBT = new AlgoritmoBackTracking(deLaGuiPersonas, deLaGuiIncompatibilidades, requerimientos) {
             @Override
             protected void done() {
                 try {
@@ -186,4 +200,9 @@ public class LogicaEquilibria {
 
         return null;
     }
+
+	
+
+
+	
 }

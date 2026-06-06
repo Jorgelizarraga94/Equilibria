@@ -1,42 +1,49 @@
 package logica;
 
 import entidades.Persona;
+import entidades.Requerimiento;
+
 import javax.swing.SwingWorker;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import javax.swing.SwingWorker;
+
 public class AlgoritmoFuerzaBruta extends SwingWorker<List<Persona>, Void> {
 
     private List<Persona> personasDisponibles;
     private List<String[]> incompatibilidades;
-    private int[] requerimientos;
+    private List<Requerimiento> requerimientos; // <-- Cambiado a List
+    private Map<String, Integer> ROL_INDEX;     // <-- Mapeo dinámico de roles
 
     private List<Persona> mejorEquipo;
-    private int mejorPuntaje=0;
+    private int mejorPuntaje = 0;
+    
+    // Métricas
     private int nodosRecorridos = 0;
     private int casosBaseContados = 0;
-    private int podasRealizadas = 0;
+    private int podasRealizadas = 0; // Se mantiene por consistencia de estructura, aunque FB no poda.
     private long tiempoMs = 0;
-    
-    private static final Map<String, Integer> ROL_INDEX = new HashMap<>();
-    static {
 
-        ROL_INDEX.put("líder de proyecto", 0);
-        ROL_INDEX.put("arquitecto", 1);
-        ROL_INDEX.put("programador", 2);
-        ROL_INDEX.put("tester", 3);
-        ROL_INDEX.put("líder", 0);
-        ROL_INDEX.put("lider", 0);
-    }
-
-    public AlgoritmoFuerzaBruta(List<Persona> personasDisponibles, List<String[]> incompatibilidades, int[] requerimientos) {
+    public AlgoritmoFuerzaBruta(List<Persona> personasDisponibles, List<String[]> incompatibilidades, List<Requerimiento> requerimientos) {
         this.personasDisponibles = new ArrayList<>(personasDisponibles);
         this.incompatibilidades = new ArrayList<>(incompatibilidades);
-        this.requerimientos = requerimientos;
+        this.requerimientos = new ArrayList<>(requerimientos); // Copia defensiva
         this.mejorEquipo = new ArrayList<>();
         this.mejorPuntaje = -1;
+
+        // Construir el mapa de índices dinámicamente según los requerimientos recibidos
+        this.ROL_INDEX = new HashMap<>();
+        for (int i = 0; i < this.requerimientos.size(); i++) {
+            String rolNormalizado = this.requerimientos.get(i).getRol().toLowerCase().trim();
+            this.ROL_INDEX.put(rolNormalizado, i);
+        }
     }
 
     @Override
@@ -52,18 +59,24 @@ public class AlgoritmoFuerzaBruta extends SwingWorker<List<Persona>, Void> {
         
         return mejorPuntaje == -1 ? new ArrayList<>() : mejorEquipo;
     }
+
     private void generarCombinaciones(int indice, List<Persona> combinacionActual) {
         this.nodosRecorridos++;
 
         if (indice == personasDisponibles.size()) {
             this.casosBaseContados++; 
-            
             evaluarSolucion(combinacionActual);
             return;
         }
+        
+        // Opción 1: No incluir a la persona actual
         generarCombinaciones(indice + 1, combinacionActual);
+        
+        // Opción 2: Incluir a la persona actual
         combinacionActual.add(personasDisponibles.get(indice));
         generarCombinaciones(indice + 1, combinacionActual);
+        
+        // Backtracking puro de Fuerza Bruta (deshacer la inclusión)
         combinacionActual.remove(combinacionActual.size() - 1);
     }
 
@@ -74,7 +87,7 @@ public class AlgoritmoFuerzaBruta extends SwingWorker<List<Persona>, Void> {
 
         int puntajeActual = 0;
         for (Persona p : candidatos) {
-            puntajeActual += p.getCalificacion();
+            text_puntaje: puntajeActual += p.getCalificacion();
         }
 
         if (puntajeActual > mejorPuntaje) {
@@ -84,15 +97,21 @@ public class AlgoritmoFuerzaBruta extends SwingWorker<List<Persona>, Void> {
     }
 
     private boolean cumpleRequerimientos(List<Persona> candidatos) {
-        int[] contadorRoles = new int[4];
+        // El tamaño del vector ahora depende dinámicamente de la cantidad de requerimientos
+        int[] contadorRoles = new int[requerimientos.size()];
+        
         for (Persona p : candidatos) {
-            // AQUÍ MODIFICAS LA LÍNEA:
             Integer idx = ROL_INDEX.get(p.getRol().toLowerCase().trim());
-            
-            if (idx != null) contadorRoles[idx]++;
+            if (idx != null) {
+                contadorRoles[idx]++;
+            }
         }
-        for (int i = 0; i < requerimientos.length; i++) {
-            if (contadorRoles[i] != requerimientos[i]) return false;
+        
+        // Validación basada en la lista dinámica de requerimientos
+        for (int i = 0; i < requerimientos.size(); i++) {
+            if (contadorRoles[i] != requerimientos.get(i).getCantidad()) {
+                return false;
+            }
         }
         return true;
     }
@@ -118,16 +137,11 @@ public class AlgoritmoFuerzaBruta extends SwingWorker<List<Persona>, Void> {
             return new ArrayList<>();
         }
     }
-    public int getMejorPuntaje() {
-    	return this.mejorPuntaje; 
-    	}
-    public int getNodos() {
-    	return this.nodosRecorridos; 
-    	}
-    public int getCasosBase() { 
-    	return this.casosBaseContados; 
-    	}
-    public long getTiempoMs() {
-    	return this.tiempoMs; 
-    	}
+
+    // Getters para UI / Métricas
+    public int getMejorPuntaje() { return this.mejorPuntaje; }
+    public int getNodos() { return this.nodosRecorridos; }
+    public int getCasosBase() { return this.casosBaseContados; }
+    public long getTiempoMs() { return this.tiempoMs; }
+    public int getPodas() { return this.podasRealizadas; }	
 }

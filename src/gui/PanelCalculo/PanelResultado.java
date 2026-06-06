@@ -44,14 +44,14 @@ public class PanelResultado extends JPanel {
 				new DefaultTableModel(new Object[][] {}, new String[] { "Nombre", "Rol", "Calificación", "Foto" }));
 
 		JScrollPane scrollPane = new JScrollPane(tabla);
-		scrollPane.setBounds(6, 34, 916, 355);
+		scrollPane.setBounds(6, 34, 894, 355);
 
 		add(scrollPane);
 
 		JComboBox comboBoxSeleccionAlgoritmo = new JComboBox();
 		comboBoxSeleccionAlgoritmo
 				.setModel(new DefaultComboBoxModel(new String[] { "BackTracking", "FuerzaBruta", "Heuristica" }));
-		comboBoxSeleccionAlgoritmo.setBounds(756, 11, 166, 22);
+		comboBoxSeleccionAlgoritmo.setBounds(734, 11, 166, 22);
 		add(comboBoxSeleccionAlgoritmo);
 
 		comboBoxSeleccionAlgoritmo.addActionListener(new ActionListener() {

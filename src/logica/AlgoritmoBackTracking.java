@@ -1,42 +1,46 @@
 package logica;
-
-import entidades.Persona;
-import javax.swing.SwingWorker;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class AlgoritmoBackTracking extends SwingWorker<List<Persona>, Void> {
+import entidades.Persona;
+import entidades.Requerimiento;
+
+public class AlgoritmoBackTracking extends javax.swing.SwingWorker<List<Persona>, Void> {
 
     private List<Persona> personasDisponibles;
     private List<String[]> incompatibilidades;
-    private int[] requerimientos;
+    private List<Requerimiento> requerimientos; // <-- Cambiado a List
+    private Map<String, Integer> ROL_INDEX;     // <-- Mapeo dinámico de roles
 
     private List<Persona> mejorEquipo;
-    private int mejorPuntaje=0;
-    private int nodosRecorridos = 0;
-    private int casosBaseContados = 0;
-    private int podasRealizadas = 0;
-    private long tiempoMs = 0;
-    
-    private static final Map<String, Integer> ROL_INDEX = new HashMap<>();
-    static {
+    private int mejorPuntaje;
 
-        ROL_INDEX.put("líder de proyecto", 0);
-        ROL_INDEX.put("arquitecto", 1);
-        ROL_INDEX.put("programador", 2);
-        ROL_INDEX.put("tester", 3);
-        ROL_INDEX.put("líder", 0);
-        ROL_INDEX.put("lider", 0);
-    }
+    // Métricas
+    private int nodosRecorridos;
+    private int casosBaseContados;
+    private int podasRealizadas;
+    private long tiempoMs;
 
-    public AlgoritmoBackTracking(List<Persona> personasDisponibles, List<String[]> incompatibilidades, int[] requerimientos) {
+    public AlgoritmoBackTracking(List<Persona> personasDisponibles, List<String[]> incompatibilidades, List<Requerimiento> requerimientos) {
         this.personasDisponibles = new ArrayList<>(personasDisponibles);
         this.incompatibilidades = new ArrayList<>(incompatibilidades);
-        this.requerimientos = requerimientos;
+        this.requerimientos = new ArrayList<>(requerimientos); // Copia defensiva
         this.mejorEquipo = new ArrayList<>();
         this.mejorPuntaje = -1;
+
+        // Inicializamos las métricas
+        this.nodosRecorridos = 0;
+        this.casosBaseContados = 0;
+        this.podasRealizadas = 0;
+
+        // Construir el mapa de índices dinámicamente según los requerimientos recibidos
+        this.ROL_INDEX = new HashMap<>();
+        for (int i = 0; i < this.requerimientos.size(); i++) {
+            String rolNormalizado = this.requerimientos.get(i).getRol().toLowerCase().trim();
+            this.ROL_INDEX.put(rolNormalizado, i);
+        }
     }
 
     @Override
@@ -47,7 +51,9 @@ public class AlgoritmoBackTracking extends SwingWorker<List<Persona>, Void> {
         mejorPuntaje = -1;
 
         List<Persona> combinacionActual = new ArrayList<>();
-        int[] rolesActuales = new int[4];
+        
+        // El tamaño del vector ahora depende dinámicamente de la cantidad de requerimientos
+        int[] rolesActuales = new int[requerimientos.size()];
         
         buscarEquipo(0, combinacionActual, rolesActuales);
         this.tiempoMs = System.currentTimeMillis() - inicio;
@@ -57,6 +63,7 @@ public class AlgoritmoBackTracking extends SwingWorker<List<Persona>, Void> {
 
     private void buscarEquipo(int indice, List<Persona> combinacionActual, int[] rolesActuales) {
         this.nodosRecorridos++;
+        
         if (cumpleTodosRequerimientos(rolesActuales)) {
             this.casosBaseContados++;
             evaluarSolucion(combinacionActual);
@@ -70,16 +77,22 @@ public class AlgoritmoBackTracking extends SwingWorker<List<Persona>, Void> {
             this.casosBaseContados++;
             return;
         }
+        
+        // Exclusión: Camino donde NO agregamos a la persona actual
         buscarEquipo(indice + 1, combinacionActual, rolesActuales);
 
+        // Inclusión: Intentar agregar a la persona actual
         Persona candidata = personasDisponibles.get(indice);
         Integer rIdx = ROL_INDEX.get(candidata.getRol().toLowerCase().trim());
-        if (rIdx != null && rolesActuales[rIdx] < requerimientos[rIdx] && !esIncompatible(candidata, combinacionActual)) {
+        
+        // Validamos si el rol de la persona es requerido en esta ejecución
+        if (rIdx != null && rolesActuales[rIdx] < requerimientos.get(rIdx).getCantidad() && !esIncompatible(candidata, combinacionActual)) {
             combinacionActual.add(candidata);
             rolesActuales[rIdx]++;
 
             buscarEquipo(indice + 1, combinacionActual, rolesActuales);
 
+            // Backtracking (Deshacer cambio)
             combinacionActual.remove(combinacionActual.size() - 1);
             rolesActuales[rIdx]--;
         } else {
@@ -100,8 +113,8 @@ public class AlgoritmoBackTracking extends SwingWorker<List<Persona>, Void> {
     }
 
     private boolean cumpleTodosRequerimientos(int[] rolesActuales) {
-        for (int i = 0; i < requerimientos.length; i++) {
-            if (rolesActuales[i] != requerimientos[i]) {
+        for (int i = 0; i < requerimientos.size(); i++) {
+            if (rolesActuales[i] != requerimientos.get(i).getCantidad()) {
                 return false;
             }
         }
@@ -109,8 +122,8 @@ public class AlgoritmoBackTracking extends SwingWorker<List<Persona>, Void> {
     }
 
     private boolean superaAlgonRequerimiento(int[] rolesActuales) {
-        for (int i = 0; i < requerimientos.length; i++) {
-            if (rolesActuales[i] > requerimientos[i]) {
+        for (int i = 0; i < requerimientos.size(); i++) {
+            if (rolesActuales[i] > requerimientos.get(i).getCantidad()) {
                 return true;
             }
         }
@@ -137,21 +150,11 @@ public class AlgoritmoBackTracking extends SwingWorker<List<Persona>, Void> {
             return new ArrayList<>();
         }
     }
-    public int getMejorPuntaje() { 
-    	return this.mejorPuntaje;
-}
-    
-    public int getNodos() {
-    	return this.nodosRecorridos; 
-    	}
-    public int getCasosBase() { 
-    	return this.casosBaseContados; 
-    	}
-    public int getPodas() {
-    	return this.podasRealizadas; 
-    	}
-    public long getTiempoMs() { 
-    	return this.tiempoMs;
-    	}
 
+    // Getters para UI/Métricas
+    public int getMejorPuntaje() { return this.mejorPuntaje; }
+    public int getNodos() { return this.nodosRecorridos; }
+    public int getCasosBase() { return this.casosBaseContados; }
+    public int getPodas() { return this.podasRealizadas; }
+    public long getTiempoMs() { return this.tiempoMs; }
 }

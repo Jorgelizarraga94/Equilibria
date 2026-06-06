@@ -55,24 +55,26 @@ public class VentanaPrincipal extends JFrame {
 		getContentPane().add(panelIncompatibilidades);
 
 		// REQUERIMIENTOS
-		panelRequerimientos = new PanelRequerimientos();
+		panelRequerimientos = new PanelRequerimientos(logicaEquilibria);
+		panelRequerimientos.getTabla().setBounds(7, 78, 315, 64);
 
-		panelRequerimientos.setBounds(930, 10, 430, 300);
+		panelRequerimientos.setBounds(930, 10, 444, 300);
 
 		getContentPane().add(panelRequerimientos);
 
 		// RESULTADO
 		panelResultado = new PanelResultado(logicaEquilibria);
-		panelResultado.getTabla().setBounds(7, 77, 548, 0);
+		panelResultado.getTabla().setBounds(7, 60, 923, 0);
 
-		panelResultado.setBounds(434, 321, 940, 400);
+		panelResultado.setBounds(470, 321, 904, 400);
 
 		getContentPane().add(panelResultado);
 
 		// RESOLVER
 		panelResolver = new PanelResolver(logicaEquilibria, panelRequerimientos, panelResultado);
+		panelResultado.setLayout(null);
 
-		panelResolver.setBounds(10, 320, 400, 400);
+		panelResolver.setBounds(10, 320, 450, 400);
 
 		getContentPane().add(panelResolver);
 

@@ -1,6 +1,7 @@
 package test;
 
 import entidades.Persona;
+import entidades.Requerimiento;
 import logica.AlgoritmoBackTracking;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -15,7 +16,7 @@ public class ABTTest {
     private AlgoritmoBackTracking solver;
     private List<Persona> personasDisponibles;
     private List<String[]> incompatibilidades;
-    private int[] requerimientos;
+    private List<Requerimiento> requerimientos;
 
 
  // Líderes (Necesitamos 1)
@@ -45,7 +46,11 @@ public class ABTTest {
  public void inicio() {
      personasDisponibles = new ArrayList<>();
      incompatibilidades = new ArrayList<>();
-     requerimientos = new int[]{1, 2, 4, 5}; 
+     requerimientos = new ArrayList<>();
+     requerimientos.add(new Requerimiento("Lider", 1));
+     requerimientos.add(new Requerimiento("arquitecto", 2 ));
+     requerimientos.add(new Requerimiento("programador", 5 ));
+     requerimientos.add(new Requerimiento("tester", 2 ));
  }
 
     private List<Persona> inicializarYEjecutar() {
