@@ -45,6 +45,9 @@ public class AlgoritmoBackTracking extends javax.swing.SwingWorker<List<Persona>
 
     @Override
     protected List<Persona> doInBackground() throws Exception {
+    	
+    	Thread.sleep(1500); // Simulación de carga para ver el calculando... en la UI
+    	
         long inicio = System.currentTimeMillis();
 
         mejorEquipo = new ArrayList<>();

@@ -97,6 +97,10 @@ public class PanelResolver extends JPanel {
 		btnResolver.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
 
+		    	barra.setIndeterminate(false);
+		        barra.setValue(100);
+		        barra.setString("Calculando...");
+		    	
 		        String algoritmoSeleccionado = comboBox.getSelectedItem().toString();
 
 		        javax.swing.table.DefaultTableModel modelo = (javax.swing.table.DefaultTableModel) panelRequerimientos
@@ -111,6 +115,10 @@ public class PanelResolver extends JPanel {
 		            @Override
 		            public void accept(ReporteEjecucion reporte) {
 		                
+		            	barra.setIndeterminate(false);
+						barra.setValue(100);
+						barra.setString("Completado");
+						
 		                List<Persona> equipoGanador = reporte.getEquipoGanador();
 
 		                if (equipoGanador.isEmpty()) {
@@ -128,14 +136,18 @@ public class PanelResolver extends JPanel {
 		                        lblPuntaje
 		                    ); 
 		                }
-		                btnResolver.setEnabled(false);
+		                btnResolver.setEnabled(true);
 		            }
 		        });
 		    }
 		});
+		
 		barra = new JProgressBar();
 		barra.setStringPainted(true);
+		barra.setString("Esperando...");
+		barra.setValue(0);
 		add(barra, BorderLayout.SOUTH);
+		
 	}
 
 	public JButton getBtnResolver() {

@@ -22,7 +22,13 @@ public class CargaDatos {
 	        logicaEquilibria.agregarPersona("Rocío", "tester", 4,"");
 	        logicaEquilibria.agregarPersona("Tomás", "tester", 3,"");
 	        logicaEquilibria.agregarPersona("Mateo", "tester", 2,"");
-	
+	        
+	        //Agregar requerimientos del ejemplo lider 1, arquitecto 2, programador 4, tester 5//para solo agregar un lider en la gui
+	       
+	        logicaEquilibria.agregarRequerimientos("Arquitecto", 2);
+	        logicaEquilibria.agregarRequerimientos("Programador", 4);
+	        logicaEquilibria.agregarRequerimientos("Tester", 5);
+	        
 	        
 	    }
 }
