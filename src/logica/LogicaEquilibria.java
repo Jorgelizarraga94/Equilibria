@@ -60,7 +60,6 @@ public class LogicaEquilibria {
 	}
 	
 	public void agregarRequerimientos(String rol, int cantidadRequerimiento) {
-		
 		requerimientos.add(new Requerimiento(rol, cantidadRequerimiento));
 	}
 	
@@ -68,8 +67,12 @@ public class LogicaEquilibria {
 	public List<Requerimiento> getRequerimientos() {
 		return requerimientos;
 	}
+	
+	public void eliminarRequerimiento(int indice) {
+		requerimientos.remove(indice);
+	}
 
-	public void calcularEquipo(String algoritmoSeleccionado, Object[][] datosTabla, Consumer<ReporteEjecucion> interfazResultado) {
+	public void calcularEquipo(String algoritmoSeleccionado, List<Requerimiento> requerimientos, Consumer<ReporteEjecucion> interfazResultado) {
         List<Persona> deLaGuiPersonas = new ArrayList<>(this.personas.values());
         
         List<String[]> deLaGuiIncompatibilidades = new ArrayList<>();
@@ -80,15 +83,7 @@ public class LogicaEquilibria {
             });
         }
         
-        int[] reqs = new int[4];
-        for (int i = 0; i < 4; i++) {
-            Object valor = datosTabla[i][1];
-            if (valor == null) {
-                interfazResultado.accept(new ReporteEjecucion(new ArrayList<>(), 0, 0, 0, 0, 0));
-                return;
-            }
-            reqs[i] = Integer.parseInt(valor.toString().trim());
-        }
+     
         
         resultadoFB = new ArrayList<>();
         resultadoBT = new ArrayList<>();
@@ -209,7 +204,6 @@ public class LogicaEquilibria {
     		}
     	}
     	return false;
-
     }
     
     //Metodo para evitar agregar una incompatibilidad entre una persona y ella misma
@@ -219,6 +213,4 @@ public class LogicaEquilibria {
 		}
 		return true;
 	}
-
-	
 }

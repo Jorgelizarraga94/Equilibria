@@ -26,7 +26,7 @@ public class AlgoritmoBackTracking extends javax.swing.SwingWorker<List<Persona>
     public AlgoritmoBackTracking(List<Persona> personasDisponibles, List<String[]> incompatibilidades, List<Requerimiento> requerimientos) {
         this.personasDisponibles = new ArrayList<>(personasDisponibles);
         this.incompatibilidades = new ArrayList<>(incompatibilidades);
-        this.requerimientos = new ArrayList<>(requerimientos); // Copia defensiva
+        this.requerimientos = new ArrayList<>(requerimientos);
         this.mejorEquipo = new ArrayList<>();
         this.mejorPuntaje = -1;
 

@@ -13,7 +13,5 @@ public class Main {
 		CargaDatos.cargarDatosDePrueba(equilibria);
 		VentanaPrincipal ventana = new VentanaPrincipal(equilibria);
 		ventana.setVisible(true);
-		
 	}
-
 }

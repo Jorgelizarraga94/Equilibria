@@ -42,7 +42,6 @@ public class VentanaPrincipal extends JFrame {
 		// PERSONAS
 		panelPersonas = new PanelPersonas(logicaEquilibria);
 		panelPersonas.refrescarTabla();
-
 		panelPersonas.setBounds(10, 10, 450, 300);
 
 		getContentPane().add(panelPersonas);
@@ -56,6 +55,7 @@ public class VentanaPrincipal extends JFrame {
 
 		// REQUERIMIENTOS
 		panelRequerimientos = new PanelRequerimientos(logicaEquilibria);
+		panelRequerimientos.refrescarTabla();
 		panelRequerimientos.getTabla().setBounds(7, 78, 315, 64);
 
 		panelRequerimientos.setBounds(930, 10, 444, 300);

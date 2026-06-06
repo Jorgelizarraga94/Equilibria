@@ -86,9 +86,7 @@ public class PanelPersonas extends JPanel {
 			refrescarTabla();
 
 			JOptionPane.showMessageDialog(null, "Eliminado con éxito.");
-
 		}
-
 	}
 
 	public void refrescarTabla() {

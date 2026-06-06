@@ -10,6 +10,7 @@ import javax.swing.border.TitledBorder;
 
 import entidades.Incompatibilidad;
 import entidades.Persona;
+import entidades.Requerimiento;
 import gui.PanelPersona.PanelRequerimientos;
 import logica.AlgoritmoFuerzaBruta;
 import logica.LogicaEquilibria;
@@ -29,7 +30,7 @@ import javax.swing.DefaultComboBoxModel;
 
 public class PanelResolver extends JPanel {
 
-	private JButton btnResolver;
+	private JButton btnGenerarEquipo;
 
 	private JLabel lblTiempo;
 	private JLabel lblNodos;
@@ -91,67 +92,58 @@ public class PanelResolver extends JPanel {
 
 		panelStats.add(comboBox);
 
-		btnResolver = new JButton("GENERAR EQUIPO");
-		btnResolver.setBounds(206, 12, 153, 23);
-		panelStats.add(btnResolver);
-		btnResolver.addActionListener(new ActionListener() {
-		    public void actionPerformed(ActionEvent e) {
+		btnGenerarEquipo = new JButton("GENERAR EQUIPO");
+		btnGenerarEquipo.setBounds(206, 12, 153, 23);
+		panelStats.add(btnGenerarEquipo);
+		btnGenerarEquipo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				barra.setIndeterminate(false);
+				barra.setValue(100);
+				barra.setString("Calculando...");
 
-		    	barra.setIndeterminate(false);
-		        barra.setValue(100);
-		        barra.setString("Calculando...");
-		    	
-		        String algoritmoSeleccionado = comboBox.getSelectedItem().toString();
+				String algoritmoSeleccionado = comboBox.getSelectedItem().toString();
 
-		        javax.swing.table.DefaultTableModel modelo = (javax.swing.table.DefaultTableModel) panelRequerimientos
-		                .getTabla().getModel();
-		        Object[][] datosMatriz = new Object[4][2];
-		        for (int i = 0; i < 4; i++) {
-		            datosMatriz[i][0] = modelo.getValueAt(i, 0);
-		            datosMatriz[i][1] = modelo.getValueAt(i, 1);
-		        }
+				javax.swing.table.DefaultTableModel modelo = (javax.swing.table.DefaultTableModel) panelRequerimientos
+						.getTabla().getModel();
 
-		        logicaEquilibria.calcularEquipo(algoritmoSeleccionado, datosMatriz, new Consumer<ReporteEjecucion>() {
-		            @Override
-		            public void accept(ReporteEjecucion reporte) {
-		                
-		            	barra.setIndeterminate(false);
-						barra.setValue(100);
-						barra.setString("Completado");
-						
-		                List<Persona> equipoGanador = reporte.getEquipoGanador();
+				List<Requerimiento> requerimientos = logicaEquilibria.getRequerimientos();
 
-		                if (equipoGanador.isEmpty()) {
-		                    javax.swing.JOptionPane.showMessageDialog(PanelResolver.this,
-		                            "No es posible formar un equipo con esos requerimientos.", "Sin Solución",
-		                            javax.swing.JOptionPane.INFORMATION_MESSAGE);
-		                } else {
-		                    panelRes.mostrarEquipo(equipoGanador); 
-		                    panelRes.mostrarMetricas(
-		                        reporte, 
-		                        lblTiempo, 
-		                        lblNodos, 
-		                        lblCasosBase, 
-		                        lblPodas, 
-		                        lblPuntaje
-		                    ); 
-		                }
-		                btnResolver.setEnabled(true);
-		            }
-		        });
-		    }
+				logicaEquilibria.calcularEquipo(algoritmoSeleccionado, requerimientos,
+						new Consumer<ReporteEjecucion>() {
+							@Override
+							public void accept(ReporteEjecucion reporte) {
+
+								barra.setIndeterminate(false);
+								barra.setValue(100);
+								barra.setString("Completado");
+
+								List<Persona> equipoGanador = reporte.getEquipoGanador();
+
+								if (equipoGanador.isEmpty()) {
+									javax.swing.JOptionPane.showMessageDialog(PanelResolver.this,
+											"No es posible formar un equipo con esos requerimientos.", "Sin Solución",
+											javax.swing.JOptionPane.INFORMATION_MESSAGE);
+								} else {
+									panelRes.mostrarEquipo(equipoGanador);
+									panelRes.mostrarMetricas(reporte, lblTiempo, lblNodos, lblCasosBase, lblPodas,
+											lblPuntaje);
+								}
+
+							}
+						});
+			}
 		});
-		
+
 		barra = new JProgressBar();
 		barra.setStringPainted(true);
 		barra.setString("Esperando...");
 		barra.setValue(0);
 		add(barra, BorderLayout.SOUTH);
-		
+
 	}
 
 	public JButton getBtnResolver() {
-		return btnResolver;
+		return btnGenerarEquipo;
 	}
 
 	public JLabel getLblTiempo() {

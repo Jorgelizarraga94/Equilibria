@@ -15,6 +15,7 @@ import logica.LogicaEquilibria;
 import java.awt.BorderLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -60,10 +61,21 @@ public class PanelRequerimientos extends JPanel {
 		JButton btnNewEliminarRequerimientos = new JButton("Eliminar");
 		btnNewEliminarRequerimientos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				eliminarRequerimiento();
 			}
 		});
 		btnNewEliminarRequerimientos.setBounds(109, 18, 89, 23);
 		add(btnNewEliminarRequerimientos);
+	}
+
+	protected void eliminarRequerimiento() {	
+		int filaSeleccionada = tabla.getSelectedRow();
+		if (filaSeleccionada != -1) {
+			int filaModelo = tabla.convertRowIndexToModel(filaSeleccionada);
+			logicaEquilibria.eliminarRequerimiento(filaModelo);
+			refrescarTabla();
+			JOptionPane.showMessageDialog(null, "Eliminado con éxito.");
+		}
 	}
 
 	public void abrirVentanaRequerimiento() {
