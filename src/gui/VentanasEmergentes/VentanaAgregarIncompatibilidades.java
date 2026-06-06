@@ -4,6 +4,7 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 import entidades.Incompatibilidad;
@@ -56,16 +57,33 @@ public class VentanaAgregarIncompatibilidades extends JFrame {
 			Persona persona1 = (Persona) comboBox.getSelectedItem();
 			Persona persona2 = (Persona) comboBox_1.getSelectedItem();
 			
-			if (persona1 != null && persona2 != null) {
+			
+			//Ver como cambiar para que no tenga la logica en esta clase intefaz.
+			if(!logicaEquilibria.esIncompatibilidadValida(persona1, persona2)) {
 
-				logicaEquilibria.agregarIncompatibilidad(persona1, persona2);
+				JOptionPane.showMessageDialog(
+					null,
+					"Debe seleccionar dos personas distintas"
+				);
 
-				panelAgregarIncompatibilidades.actualizarTabla();
-
-				this.dispose();
+				return;
 			}
-	
+			
+			//Para evitar que se agregue la misma incompatibilidad dos veces, sin importar el orden de las personas.
+			//Se llama a un metodo en LogicaEquilibria que verifica si ya existe esa incompatibilidad
+			if(logicaEquilibria.existeIncompatibilidad(persona1, persona2)) {
+				JOptionPane.showMessageDialog(null, "Esa incompatibilidad ya existe");
+				return;
+			}
+			
+			
+			logicaEquilibria.agregarIncompatibilidad(persona1, persona2);
+			panelAgregarIncompatibilidades.actualizarTabla();
+			
+			this.dispose();
+			
 		});
+		
 		
 
 

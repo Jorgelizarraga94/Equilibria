@@ -200,9 +200,25 @@ public class LogicaEquilibria {
 
         return null;
     }
+    
+    //Metodo para evitar agregar personas con la misma Incompatibilidad
+    public boolean existeIncompatibilidad(Persona p1, Persona p2){
+    	for(Incompatibilidad incompatible : incompatibilidades){
+    		if((incompatible.getPersona1().equals(p1) && incompatible.getPersona2().equals(p2)) || (incompatible.getPersona1().equals(p2) && incompatible.getPersona2().equals(p1))){
+    			return true;
+    		}
+    	}
+    	return false;
 
-	
-
+    }
+    
+    //Metodo para evitar agregar una incompatibilidad entre una persona y ella misma
+    public boolean esIncompatibilidadValida(Persona p1, Persona p2){
+		if(p1.equals(p2)){
+			return false;
+		}
+		return true;
+	}
 
 	
 }

@@ -31,7 +31,7 @@ public class VentanaPrincipal extends JFrame {
 
 	private void initialize() {
 
-		setTitle("Sofware Factoy Equilibria");
+		setTitle("Software Factory Equilibria");
 
 		setBounds(100, 100, 1400, 800);
 

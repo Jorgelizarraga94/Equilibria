@@ -49,6 +49,7 @@ public class PanelIncompatibilidades extends JPanel {
 		btnAgregar = new JButton("Agregar");
 		btnAgregar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
 				agregarIncopatibilidades(e);
 			}
 		});
