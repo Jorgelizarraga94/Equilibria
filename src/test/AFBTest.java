@@ -16,8 +16,8 @@ public class AFBTest {
     private List<Requerimiento> requerimientos;
 
  // Líderes (Necesitamos 1)
- private final Persona liderPerfecto = new Persona("Carlos", "líder de proyecto", 5);
- private final Persona liderBueno = new Persona("Ana", "líder de proyecto", 4);
+ private final Persona liderPerfecto = new Persona("Carlos", "lider", 5);
+ private final Persona liderBueno = new Persona("Ana", "lider", 4);
 
  // Arquitectos (Necesitamos 2)
  private final Persona arq1 = new Persona("Elena", "arquitecto", 5);
@@ -46,8 +46,8 @@ public class AFBTest {
      requerimientos = new ArrayList<>();
      requerimientos.add(new Requerimiento("Lider", 1));
      requerimientos.add(new Requerimiento("arquitecto", 2 ));
-     requerimientos.add(new Requerimiento("programador", 5 ));
-     requerimientos.add(new Requerimiento("tester", 2 ));
+     requerimientos.add(new Requerimiento("programador", 4 ));
+     requerimientos.add(new Requerimiento("tester", 5 ));
  }
 
     private List<Persona> inicializarYEjecutar() {

@@ -20,8 +20,8 @@ public class ABTTest {
 
 
  // Líderes (Necesitamos 1)
- private final Persona liderPerfecto = new Persona("Carlos", "líder de proyecto", 5);
- private final Persona liderBueno = new Persona("Ana", "líder de proyecto", 4);
+ private final Persona liderPerfecto = new Persona("Carlos", "lider", 5);
+ private final Persona liderBueno = new Persona("Ana", "lider", 4);
 
  // Arquitectos (Necesitamos 2)
  private final Persona arq1 = new Persona("Elena", "arquitecto", 5);
@@ -34,6 +34,7 @@ public class ABTTest {
  private final Persona prog3 = new Persona("Pedro", "programador", 3);
  private final Persona prog4 = new Persona("Lucía", "programador", 3);
  private final Persona prog5 = new Persona("Bruno", "programador", 1);
+ private final Persona prog6 = new Persona("Mariano", "programador", 1);
 
  // Testers (Necesitamos 5)
  private final Persona test1 = new Persona("Mía", "tester", 5);
@@ -49,8 +50,8 @@ public class ABTTest {
      requerimientos = new ArrayList<>();
      requerimientos.add(new Requerimiento("Lider", 1));
      requerimientos.add(new Requerimiento("arquitecto", 2 ));
-     requerimientos.add(new Requerimiento("programador", 5 ));
-     requerimientos.add(new Requerimiento("tester", 2 ));
+     requerimientos.add(new Requerimiento("programador", 4 ));
+     requerimientos.add(new Requerimiento("tester", 5 ));
  }
 
     private List<Persona> inicializarYEjecutar() {
@@ -84,8 +85,11 @@ public class ABTTest {
         personasDisponibles.add(prog3);
         personasDisponibles.add(prog4);
         personasDisponibles.add(prog5);
+        
+        
 
         List<Persona> resultado = inicializarYEjecutar();
+
         assertEquals(12, resultado.size()); 
         assertTrue(resultado.contains(liderPerfecto));
         assertFalse(resultado.contains(liderBueno));

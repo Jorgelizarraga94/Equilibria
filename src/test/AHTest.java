@@ -41,8 +41,8 @@ public class AHTest {
         requerimientos = new ArrayList<>();
         requerimientos.add(new Requerimiento("Lider", 1));
         requerimientos.add(new Requerimiento("arquitecto", 2 ));
-        requerimientos.add(new Requerimiento("programador", 5 ));
-        requerimientos.add(new Requerimiento("tester", 2 ));
+        requerimientos.add(new Requerimiento("programador", 4 ));
+        requerimientos.add(new Requerimiento("tester", 5 ));
     }
 
     private List<Persona> inicializarYEjecutar() {

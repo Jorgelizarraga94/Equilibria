@@ -27,7 +27,7 @@ public class CargaDatos {
 	       
 	        logicaEquilibria.agregarRequerimientos("Arquitecto", 2);
 	        logicaEquilibria.agregarRequerimientos("Programador", 4);
-	        logicaEquilibria.agregarRequerimientos("Tester", 4);
+	        logicaEquilibria.agregarRequerimientos("Tester", 5);
 	        logicaEquilibria.agregarRequerimientos("lider", 1);
 	        
 	        
