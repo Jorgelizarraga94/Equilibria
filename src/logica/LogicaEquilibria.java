@@ -15,15 +15,16 @@ import entidades.Persona;
 import entidades.Requerimiento;
 
 public class LogicaEquilibria {
+	
 	private ReporteEjecucion reporteBT;
 	private ReporteEjecucion reporteFB;
 	private ReporteEjecucion reporteAH;
-	Map<Long, Persona> personas = new HashMap<>();
+	private Map<Long, Persona> personas = new HashMap<>();
 	private List<Requerimiento> requerimientos = new ArrayList<>();
 	private List<Incompatibilidad> incompatibilidades = new ArrayList<>();
-	List<Persona> resultadoFB;
-    List<Persona> resultadoAH;
-	List<Persona> resultadoBT;
+	private List<Persona> resultadoFB;
+	private List<Persona> resultadoAH;
+	private List<Persona> resultadoBT;
 
 	public void agregarPersona(String nombre, String rol, int calificación, String foto) {
 		Persona persona = new Persona(nombre, rol, calificación, foto);
@@ -83,8 +84,6 @@ public class LogicaEquilibria {
             });
         }
         
-     
-        
         resultadoFB = new ArrayList<>();
         resultadoBT = new ArrayList<>();
         resultadoAH = new ArrayList<>();
@@ -101,7 +100,7 @@ public class LogicaEquilibria {
         );
 
         CountDownLatch latch = new CountDownLatch(2);
-
+        
         AlgoritmoFuerzaBruta workerFB = new AlgoritmoFuerzaBruta(deLaGuiPersonas, deLaGuiIncompatibilidades, requerimientos) {
             @Override
             protected void done() {
@@ -181,8 +180,7 @@ public class LogicaEquilibria {
     }
 
     public ReporteEjecucion getReporte(String algoritmo) {
-        if (algoritmo == null) return null;
-        
+        if (algoritmo == null) return null;  
         String limpio = algoritmo.trim();
 
         if ("BackTracking".equalsIgnoreCase(limpio)) {

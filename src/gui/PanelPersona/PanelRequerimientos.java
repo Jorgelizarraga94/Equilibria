@@ -21,14 +21,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class PanelRequerimientos extends JPanel {
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private JTable tabla;
-	VentanaAgregarRequerimientos ventanaAgregarRequerimientos;
-	LogicaEquilibria logicaEquilibria;
+	private LogicaEquilibria logicaEquilibria;
 
 	public PanelRequerimientos(LogicaEquilibria logica) {
 		this.logicaEquilibria = logica;
@@ -39,16 +34,18 @@ public class PanelRequerimientos extends JPanel {
 
 		setBorder(new TitledBorder("3. Requerimientos"));
 		setLayout(null);
-
+		
+		//TABLA 
 		tabla = new JTable();
-
+		tabla.setRowSelectionAllowed(false);
 		tabla.setModel(new DefaultTableModel(new Object[][] {}, new String[] { "Rol", "Cantidad" }));
 
 		JScrollPane scrollPane = new JScrollPane(tabla);
 		scrollPane.setBounds(6, 52, 434, 242);
 
 		add(scrollPane);
-
+		
+		//BOTONES
 		JButton btnNewAgregarRequerimientos = new JButton("Agregar");
 		btnNewAgregarRequerimientos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -68,7 +65,7 @@ public class PanelRequerimientos extends JPanel {
 		add(btnNewEliminarRequerimientos);
 	}
 
-	protected void eliminarRequerimiento() {	
+	public void eliminarRequerimiento() {	
 		int filaSeleccionada = tabla.getSelectedRow();
 		if (filaSeleccionada != -1) {
 			int filaModelo = tabla.convertRowIndexToModel(filaSeleccionada);
@@ -96,5 +93,4 @@ public class PanelRequerimientos extends JPanel {
 			modelo.addRow(new Object[] { requerimiento.getRol(), requerimiento.getCantidad() });
 		}
 	}
-
 }

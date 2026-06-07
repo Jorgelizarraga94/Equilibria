@@ -16,17 +16,18 @@ import java.awt.event.ActionEvent;
 
 public class VentanaPrincipal extends JFrame {
 
+	
+	private static final long serialVersionUID = 1L;
 	private PanelPersonas panelPersonas;
 	private PanelIncompatibilidades panelIncompatibilidades;
 	private PanelRequerimientos panelRequerimientos;
 	private PanelResolver panelResolver;
 	private PanelResultado panelResultado;
-	LogicaEquilibria logicaEquilibria;
+	private LogicaEquilibria logicaEquilibria;
 
 	public VentanaPrincipal(LogicaEquilibria logica) {
 		this.logicaEquilibria = logica;
 		initialize();
-
 	}
 
 	private void initialize() {
@@ -71,7 +72,7 @@ public class VentanaPrincipal extends JFrame {
 		getContentPane().add(panelResultado);
 
 		// RESOLVER
-		panelResolver = new PanelResolver(logicaEquilibria, panelRequerimientos, panelResultado);
+		panelResolver = new PanelResolver(logicaEquilibria, panelResultado);
 		panelResultado.setLayout(null);
 
 		panelResolver.setBounds(10, 320, 450, 400);

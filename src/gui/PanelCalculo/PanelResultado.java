@@ -3,17 +3,14 @@ package gui.PanelCalculo;
 import entidades.Persona;
 import logica.LogicaEquilibria;
 import logica.ReporteEjecucion;
-
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
-import java.awt.BorderLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.security.PrivateKey;
 import java.util.List;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -21,26 +18,34 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 
 public class PanelResultado extends JPanel {
+
+	private static final long serialVersionUID = 1L;
 	private LogicaEquilibria logicaEquilibria;
 	private JTable tabla;
+	private JLabel lblTiempo;
+	private JLabel lblNodos;
+	private JLabel lblCasosBase;
+	private JLabel lblPodas;
+	private JLabel lblPuntaje;
 
-	JLabel lblTiempo;
-	JLabel lblNodos;
-	JLabel lblCasosBase;
-	JLabel lblPodas;
-	JLabel lblPuntaje;
-
+	// Constructor
 	public PanelResultado(LogicaEquilibria logicaEquilibria) {
+		setFocusable(false);
 		this.logicaEquilibria = logicaEquilibria;
 		initialize();
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void initialize() {
 
 		setBorder(new TitledBorder("5. Equipo Resultante"));
 		setLayout(null);
 
 		tabla = new JTable();
+		tabla.setEnabled(false);
+		tabla.setFocusTraversalKeysEnabled(false);
+		tabla.setFocusable(false);
+		tabla.setRowSelectionAllowed(false);
 
 		tabla.setModel(
 				new DefaultTableModel(new Object[][] {}, new String[] { "Nombre", "Rol", "Calificación", "Foto" }) {
@@ -61,6 +66,7 @@ public class PanelResultado extends JPanel {
 		JLabel lblNewLabel = new JLabel("New label");
 		scrollPane.setColumnHeaderView(lblNewLabel);
 
+		@SuppressWarnings("rawtypes")
 		JComboBox comboBoxSeleccionAlgoritmo = new JComboBox();
 		comboBoxSeleccionAlgoritmo
 				.setModel(new DefaultComboBoxModel(new String[] { "BackTracking", "FuerzaBruta", "Heuristica" }));
@@ -91,7 +97,6 @@ public class PanelResultado extends JPanel {
 					}
 					padre = padre.getParent();
 				}
-
 				actualizarResultado(algoritmoSeleccionado, lblTiempo, lblNodos, lblCasosBase, lblPodas, lblPuntaje);
 			}
 		});
@@ -102,20 +107,14 @@ public class PanelResultado extends JPanel {
 		modelo.setRowCount(0);
 
 		for (Persona p : equipo) {
-
 			ImageIcon icono = null;
-
 			if (p.getFoto() != null && !p.getFoto().isEmpty()) {
 				ImageIcon original = new ImageIcon(p.getFoto());
-
 				Image imagenEscalada = original.getImage().getScaledInstance(150, 80, Image.SCALE_SMOOTH);
-
 				icono = new ImageIcon(imagenEscalada);
 			}
-
 			modelo.addRow(new Object[] { p.getNombre(), p.getRol(), p.getCalificacion(), icono });
 		}
-
 		tabla.setRowHeight(100);
 	}
 
@@ -140,9 +139,7 @@ public class PanelResultado extends JPanel {
 			}
 			break;
 
-		case "Heurística":
 		case "Heuristica":
-		case "AlgoritmoHeuristico":
 			ReporteEjecucion reporteAH = logicaEquilibria.getReporte("Heuristica");
 			if (reporteAH != null) {
 				mostrarEquipo(reporteAH.getEquipoGanador());

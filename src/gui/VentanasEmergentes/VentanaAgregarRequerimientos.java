@@ -24,9 +24,10 @@ public class VentanaAgregarRequerimientos extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
 	private JTextField textFieldCantidadRequerimiento;
+	@SuppressWarnings("rawtypes")
 	private JComboBox comboBoxRolRequerimiento;
-	PanelRequerimientos panelRequerimientos;
-	LogicaEquilibria logicaEquilibria;
+	private PanelRequerimientos panelRequerimientos;
+	private LogicaEquilibria logicaEquilibria;
 
 	public VentanaAgregarRequerimientos(LogicaEquilibria logica, PanelRequerimientos panelRequerimientos) {
 		this.logicaEquilibria = logica;
@@ -34,6 +35,7 @@ public class VentanaAgregarRequerimientos extends JFrame {
 		ventanaAgregarRequerimientos();
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void ventanaAgregarRequerimientos() {
 		this.setBounds(100, 100, 450, 300);
 		this.getContentPane().setLayout(new BorderLayout());
@@ -74,5 +76,6 @@ public class VentanaAgregarRequerimientos extends JFrame {
 		logicaEquilibria.agregarRequerimientos(comboBoxRolRequerimiento.getSelectedItem().toString(),
 				Integer.parseInt(textFieldCantidadRequerimiento.getText()));
 		panelRequerimientos.refrescarTabla();
+		this.dispose();
 	}
 }

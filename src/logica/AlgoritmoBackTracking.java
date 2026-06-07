@@ -1,4 +1,5 @@
 package logica;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -11,8 +12,8 @@ public class AlgoritmoBackTracking extends javax.swing.SwingWorker<List<Persona>
 
     private List<Persona> personasDisponibles;
     private List<String[]> incompatibilidades;
-    private List<Requerimiento> requerimientos; // <-- Cambiado a List
-    private Map<String, Integer> ROL_INDEX;     // <-- Mapeo dinámico de roles
+    private List<Requerimiento> requerimientos;
+    private Map<String, Integer> roles;
 
     private List<Persona> mejorEquipo;
     private int mejorPuntaje;
@@ -24,22 +25,21 @@ public class AlgoritmoBackTracking extends javax.swing.SwingWorker<List<Persona>
     private long tiempoMs;
 
     public AlgoritmoBackTracking(List<Persona> personasDisponibles, List<String[]> incompatibilidades, List<Requerimiento> requerimientos) {
+    	
         this.personasDisponibles = new ArrayList<>(personasDisponibles);
         this.incompatibilidades = new ArrayList<>(incompatibilidades);
         this.requerimientos = new ArrayList<>(requerimientos);
         this.mejorEquipo = new ArrayList<>();
         this.mejorPuntaje = -1;
 
-        // Inicializamos las métricas
         this.nodosRecorridos = 0;
         this.casosBaseContados = 0;
         this.podasRealizadas = 0;
 
-        // Construir el mapa de índices dinámicamente según los requerimientos recibidos
-        this.ROL_INDEX = new HashMap<>();
+        this.roles = new HashMap<>();
         for (int i = 0; i < this.requerimientos.size(); i++) {
             String rolNormalizado = this.requerimientos.get(i).getRol().toLowerCase().trim();
-            this.ROL_INDEX.put(rolNormalizado, i);
+            this.roles.put(rolNormalizado, i);
         }
     }
 
@@ -47,20 +47,16 @@ public class AlgoritmoBackTracking extends javax.swing.SwingWorker<List<Persona>
     protected List<Persona> doInBackground() throws Exception {
     	
     	Thread.sleep(1500); // Simulación de carga para ver el calculando... en la UI
-    	
         long inicio = System.currentTimeMillis();
-
         mejorEquipo = new ArrayList<>();
         mejorPuntaje = -1;
 
         List<Persona> combinacionActual = new ArrayList<>();
         
-        // El tamaño del vector ahora depende dinámicamente de la cantidad de requerimientos
+        // El tamaño del vector depende dinámicamente de la cantidad de requerimientos
         int[] rolesActuales = new int[requerimientos.size()];
-        
         buscarEquipo(0, combinacionActual, rolesActuales);
         this.tiempoMs = System.currentTimeMillis() - inicio;
-
         return mejorPuntaje == -1 ? new ArrayList<>() : mejorEquipo;
     }
 
@@ -72,10 +68,12 @@ public class AlgoritmoBackTracking extends javax.swing.SwingWorker<List<Persona>
             evaluarSolucion(combinacionActual);
             return;
         }
-        if (superaAlgonRequerimiento(rolesActuales)) {
+        
+        if (superaAlgunRequerimiento(rolesActuales)) {
             this.podasRealizadas++;
             return;
         }
+        
         if (indice == personasDisponibles.size()) {
             this.casosBaseContados++;
             return;
@@ -86,7 +84,7 @@ public class AlgoritmoBackTracking extends javax.swing.SwingWorker<List<Persona>
 
         // Inclusión: Intentar agregar a la persona actual
         Persona candidata = personasDisponibles.get(indice);
-        Integer rIdx = ROL_INDEX.get(candidata.getRol().toLowerCase().trim());
+        Integer rIdx = roles.get(candidata.getRol().toLowerCase().trim());
         
         // Validamos si el rol de la persona es requerido en esta ejecución
         if (rIdx != null && rolesActuales[rIdx] < requerimientos.get(rIdx).getCantidad() && !esIncompatible(candidata, combinacionActual)) {
@@ -124,7 +122,7 @@ public class AlgoritmoBackTracking extends javax.swing.SwingWorker<List<Persona>
         return true;
     }
 
-    private boolean superaAlgonRequerimiento(int[] rolesActuales) {
+    private boolean superaAlgunRequerimiento(int[] rolesActuales) {
         for (int i = 0; i < requerimientos.size(); i++) {
             if (rolesActuales[i] > requerimientos.get(i).getCantidad()) {
                 return true;
@@ -154,7 +152,6 @@ public class AlgoritmoBackTracking extends javax.swing.SwingWorker<List<Persona>
         }
     }
 
-    // Getters para UI/Métricas
     public int getMejorPuntaje() { return this.mejorPuntaje; }
     public int getNodos() { return this.nodosRecorridos; }
     public int getCasosBase() { return this.casosBaseContados; }

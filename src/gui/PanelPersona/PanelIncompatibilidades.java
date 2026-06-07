@@ -17,12 +17,13 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class PanelIncompatibilidades extends JPanel {
-
+	private static final long serialVersionUID = 1L;
 	private JTable tabla;
 	private JButton btnAgregar;
 	private JButton btnEliminar;
-	LogicaEquilibria logicaEquilibria;
-
+	private LogicaEquilibria logicaEquilibria;
+	
+	//Constructor
 	public PanelIncompatibilidades(LogicaEquilibria logica) {
 		this.logicaEquilibria = logica;
 		initialize();
@@ -36,7 +37,6 @@ public class PanelIncompatibilidades extends JPanel {
 
 		// TABLA
 		tabla = new JTable();
-
 		tabla.setModel(new DefaultTableModel(new Object[][] {}, new String[] { "id", "Persona 1", "Persona 2" }));
 
 		JScrollPane scrollPane = new JScrollPane(tabla);
@@ -48,9 +48,8 @@ public class PanelIncompatibilidades extends JPanel {
 
 		btnAgregar = new JButton("Agregar");
 		btnAgregar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				agregarIncopatibilidades(e);
+			public void actionPerformed(ActionEvent e) {		
+				agregarIncompatibilidades(e);
 			}
 		});
 
@@ -66,39 +65,36 @@ public class PanelIncompatibilidades extends JPanel {
 
 		add(panelBotones, BorderLayout.NORTH);
 	}
-
-	private void agregarIncopatibilidades(ActionEvent accion) {
+	
+	//Agregar Incompatibilidad
+	private void agregarIncompatibilidades(ActionEvent accion) {
 		VentanaAgregarIncompatibilidades ventanaAgregarIncompatibilidades = new VentanaAgregarIncompatibilidades(
 				logicaEquilibria, this);
 		ventanaAgregarIncompatibilidades.setVisible(true);
 		ventanaAgregarIncompatibilidades.setLocationRelativeTo(null);
 	}
+	
+	// Eliminar incompatibilidad
+		private void eliminarIncompatibilidad(ActionEvent e) {
+			int filaSeleccionada = tabla.getSelectedRow();
+			if (filaSeleccionada != -1) {
+				int filaModelo = tabla.convertRowIndexToModel(filaSeleccionada);
+				logicaEquilibria.eliminarIncopatibilidad(filaModelo);
+				actualizarTabla();
+				JOptionPane.showMessageDialog(null, "Eliminado con éxito.");
+			}
+		}
 
 	// Actualizar la tabla
 	public void actualizarTabla() {
-
 		DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
-
 		modelo.setRowCount(0);
-
 		for (var incompatibilidad : logicaEquilibria.getIncompatibilidades()) {
-
 			modelo.addRow(new Object[] { incompatibilidad.getid(), incompatibilidad.getPersona1().getNombre(),
 					incompatibilidad.getPersona2().getNombre() });
 		}
 	}
-
-	private void eliminarIncompatibilidad(ActionEvent e) {
-		int filaSeleccionada = tabla.getSelectedRow();
-		if (filaSeleccionada != -1) {
-			int filaModelo = tabla.convertRowIndexToModel(filaSeleccionada);
-			logicaEquilibria.eliminarIncopatibilidad(filaModelo);
-			actualizarTabla();
-
-			JOptionPane.showMessageDialog(null, "Eliminado con éxito.");
-		}
-	}
-
+	
 	public JTable getTabla() {
 		return tabla;
 	}

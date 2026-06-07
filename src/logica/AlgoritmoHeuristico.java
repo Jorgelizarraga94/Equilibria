@@ -25,7 +25,7 @@ import javax.swing.SwingWorker;
 public class AlgoritmoHeuristico extends SwingWorker<List<Persona>, Void> {
     private List<Persona> personasDisponibles;
     private Set<String> mapaIncompatibilidades;
-    private Map<String, Integer> requerimientos; // Estructura dinámica clave-valor
+    private Map<String, Integer> requerimientos;
     private List<Persona> mejorEquipo;
     private int mejorPuntaje;
     private int nodosRecorridos;
@@ -43,8 +43,7 @@ public class AlgoritmoHeuristico extends SwingWorker<List<Persona>, Void> {
         // Inicializamos y cargamos el mapa dinámicamente con los requerimientos recibidos
         this.requerimientos = new HashMap<>();
         for (Requerimiento r : reqs) {
-            String rolNormalizado = normalizarRol(r.getRol());
-            this.requerimientos.put(rolNormalizado, r.getCantidad());
+            this.requerimientos.put(r.getRol(), r.getCantidad());
         }
 
         this.mapaIncompatibilidades = new HashSet<>();
@@ -95,16 +94,13 @@ public class AlgoritmoHeuristico extends SwingWorker<List<Persona>, Void> {
 
         for (Persona p : personasDisponibles) {
             nodosRecorridos++;
-            
-            String rol = normalizarRol(p.getRol());
-            
             // Si el rol de esta persona no está en los requerimientos del equipo, se la ignora
-            if (!requerimientos.containsKey(rol)) {
+            if (!requerimientos.containsKey(p.getRol())) {
                 continue;
             }
 
-            int actuales = asignadosPorRol.getOrDefault(rol, 0);
-            int requeridos = requerimientos.getOrDefault(rol, 0);
+            int actuales = asignadosPorRol.getOrDefault(p.getRol(), 0);
+            int requeridos = requerimientos.getOrDefault(p.getRol(), 0);
             
             if (actuales >= requeridos) {
                 continue;
@@ -124,7 +120,7 @@ public class AlgoritmoHeuristico extends SwingWorker<List<Persona>, Void> {
 
             if (!esIncompatible) {
                 equipoConstruido.add(p);
-                asignadosPorRol.put(rol, actuales + 1);
+                asignadosPorRol.put(p.getRol(), actuales + 1);
             }
         }
 
@@ -132,7 +128,7 @@ public class AlgoritmoHeuristico extends SwingWorker<List<Persona>, Void> {
         boolean requisitosCumplidos = true;
         int puntajeTotal = 0;
         
-        // Verificación basada únicamente en las llaves del mapa de requerimientos
+        // Verificación basada únicamente en las claves del mapa de requerimientos
         for (String rol : requerimientos.keySet()) {
             if (asignadosPorRol.getOrDefault(rol, 0) < requerimientos.get(rol)) {
                 requisitosCumplidos = false;
@@ -150,18 +146,6 @@ public class AlgoritmoHeuristico extends SwingWorker<List<Persona>, Void> {
         
         this.mejorPuntaje = 0;
         return new ArrayList<>();
-    }
-
-    /**
-     * Helper para unificar criterios de strings de roles y evitar discrepancias (ej: "líder de proyecto" vs "lider")
-     */
-    private String normalizarRol(String rol) {
-        if (rol == null) return "";
-        String r = rol.toLowerCase().trim();
-        if (r.equals("líder de proyecto") || r.equals("líder") || r.equals("lider")) {
-            return "lider"; // Estandarizamos al string que desees usar como clave unificada
-        }
-        return r;
     }
 
     // Getters para UI / Métricas

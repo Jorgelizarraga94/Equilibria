@@ -29,29 +29,27 @@ import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 
 public class PanelResolver extends JPanel {
-
+	private static final long serialVersionUID = 1L;
+	private LogicaEquilibria logicaEquilibria;
+	private PanelResultado panelRes;
 	private JButton btnGenerarEquipo;
-
 	private JLabel lblTiempo;
 	private JLabel lblNodos;
 	private JLabel lblCasosBase;
 	private JLabel lblPodas;
 	private JLabel lblPuntaje;
-	private LogicaEquilibria logicaEquilibria;
-	private PanelRequerimientos panelRequerimientos;
-	private PanelResultado panelRes;
-
 	private JProgressBar barra;
+	@SuppressWarnings("rawtypes")
 	private JComboBox comboBox;
 
-	public PanelResolver(LogicaEquilibria logica, PanelRequerimientos panel, PanelResultado panelres) {
-
+	// Constructor
+	public PanelResolver(LogicaEquilibria logica, PanelResultado panelres) {
 		this.logicaEquilibria = logica;
-		this.panelRequerimientos = panel;
 		this.panelRes = panelres;
 		initialize();
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void initialize() {
 
 		setLayout(new BorderLayout());
@@ -59,7 +57,6 @@ public class PanelResolver extends JPanel {
 		setBorder(new TitledBorder("4. Resolver"));
 
 		// ESTADISTICAS
-		// Se deberia cambiar los labels por
 		JPanel panelStats = new JPanel();
 
 		lblTiempo = new JLabel("Tiempo: 0 ms");
@@ -103,9 +100,6 @@ public class PanelResolver extends JPanel {
 
 				String algoritmoSeleccionado = comboBox.getSelectedItem().toString();
 
-				javax.swing.table.DefaultTableModel modelo = (javax.swing.table.DefaultTableModel) panelRequerimientos
-						.getTabla().getModel();
-
 				List<Requerimiento> requerimientos = logicaEquilibria.getRequerimientos();
 
 				logicaEquilibria.calcularEquipo(algoritmoSeleccionado, requerimientos,
@@ -142,7 +136,7 @@ public class PanelResolver extends JPanel {
 
 	}
 
-	public JButton getBtnResolver() {
+	public JButton getBtnGenerarEquipo() {
 		return btnGenerarEquipo;
 	}
 

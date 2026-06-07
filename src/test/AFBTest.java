@@ -16,27 +16,27 @@ public class AFBTest {
     private List<Requerimiento> requerimientos;
 
  // Líderes (Necesitamos 1)
- private final Persona liderPerfecto = new Persona("Carlos", "lider", 5);
- private final Persona liderBueno = new Persona("Ana", "lider", 4);
+ private final Persona liderPerfecto = new Persona("Carlos", "Lider", 5);
+ private final Persona liderBueno = new Persona("Ana", "Lider", 4);
 
  // Arquitectos (Necesitamos 2)
- private final Persona arq1 = new Persona("Elena", "arquitecto", 5);
- private final Persona arq2 = new Persona("Marcos", "arquitecto", 4);
- private final Persona arq3 = new Persona("Lucas", "arquitecto", 2);
+ private final Persona arq1 = new Persona("Elena", "Arquitecto", 5);
+ private final Persona arq2 = new Persona("Marcos", "Arquitecto", 4);
+ private final Persona arq3 = new Persona("Lucas", "Arquitecto", 2);
 
  // Programadores (Necesitamos 4)
- private final Persona prog1 = new Persona("Sofía", "programador", 5);
- private final Persona prog2 = new Persona("Juan", "programador", 4);
- private final Persona prog3 = new Persona("Pedro", "programador", 3);
- private final Persona prog4 = new Persona("Lucía", "programador", 3);
- private final Persona prog5 = new Persona("Bruno", "programador", 1);
+ private final Persona prog1 = new Persona("Sofía", "Programador", 5);
+ private final Persona prog2 = new Persona("Juan", "Programador", 4);
+ private final Persona prog3 = new Persona("Pedro", "Programador", 3);
+ private final Persona prog4 = new Persona("Lucía", "Programador", 3);
+ private final Persona prog5 = new Persona("Bruno", "Programador", 1);
 
  // Testers (Necesitamos 5)
- private final Persona test1 = new Persona("Mía", "tester", 5);
- private final Persona test2 = new Persona("Facundo", "tester", 4);
- private final Persona test3 = new Persona("Rocío", "tester", 4);
- private final Persona test4 = new Persona("Tomás", "tester", 3);
- private final Persona test5 = new Persona("Mateo", "tester", 2);
+ private final Persona test1 = new Persona("Mía", "Tester", 5);
+ private final Persona test2 = new Persona("Facundo", "Tester", 4);
+ private final Persona test3 = new Persona("Rocío", "Tester", 4);
+ private final Persona test4 = new Persona("Tomás", "Tester", 3);
+ private final Persona test5 = new Persona("Mateo", "Tester", 2);
     
 
  @Before
@@ -45,9 +45,9 @@ public class AFBTest {
      incompatibilidades = new ArrayList<>();
      requerimientos = new ArrayList<>();
      requerimientos.add(new Requerimiento("Lider", 1));
-     requerimientos.add(new Requerimiento("arquitecto", 2 ));
-     requerimientos.add(new Requerimiento("programador", 4 ));
-     requerimientos.add(new Requerimiento("tester", 5 ));
+     requerimientos.add(new Requerimiento("Arquitecto", 2 ));
+     requerimientos.add(new Requerimiento("Programador", 4 ));
+     requerimientos.add(new Requerimiento("Tester", 5 ));
  }
 
     private List<Persona> inicializarYEjecutar() {

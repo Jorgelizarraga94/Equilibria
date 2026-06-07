@@ -18,11 +18,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class PanelPersonas extends JPanel {
-
+	private static final long serialVersionUID = 1L;
 	private JTable tabla;
 	private JButton btnAgregar;
 	private JButton btnEliminar;
-	LogicaEquilibria logicaEquilibria;
+	private LogicaEquilibria logicaEquilibria;
 
 	public PanelPersonas(LogicaEquilibria logica) {
 		this.logicaEquilibria = logica;
@@ -37,12 +37,11 @@ public class PanelPersonas extends JPanel {
 
 		// TABLA
 		tabla = new JTable();
-
+		tabla.setRowSelectionAllowed(false);
 		tabla.setModel(new DefaultTableModel(new Object[][] {},
 				new String[] { "Id", "Nombre", "Rol", "Calificación"}));
 
 		JScrollPane scrollPane = new JScrollPane(tabla);
-
 		add(scrollPane, BorderLayout.CENTER);
 
 		// BOTONES
@@ -53,7 +52,6 @@ public class PanelPersonas extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				visualizarVentanaAgregarPersona(e);
 			}
-
 		});
 
 		btnEliminar = new JButton("Eliminar");
@@ -61,12 +59,10 @@ public class PanelPersonas extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				eliminarPersonaInterfaz(e);
 			}
-
 		});
 
 		panelBotones.add(btnAgregar);
 		panelBotones.add(btnEliminar);
-
 		add(panelBotones, BorderLayout.NORTH);
 	}
 
@@ -74,7 +70,6 @@ public class PanelPersonas extends JPanel {
 		VentanaAgregarPersona agregarPersona = new VentanaAgregarPersona(logicaEquilibria, this);
 		agregarPersona.setVisible(true);
 		agregarPersona.setLocationRelativeTo(null);
-
 	}
 
 	private void eliminarPersonaInterfaz(ActionEvent e) {
@@ -84,7 +79,6 @@ public class PanelPersonas extends JPanel {
 			Long dato = (Long) tabla.getModel().getValueAt(filaModelo, 0);
 			logicaEquilibria.eliminarPersona(dato);
 			refrescarTabla();
-
 			JOptionPane.showMessageDialog(null, "Eliminado con éxito.");
 		}
 	}

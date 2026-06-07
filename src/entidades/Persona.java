@@ -6,9 +6,7 @@ public class Persona {
 	private String nombre;
 	private String rol;
 	private int calificacion;
-	
-	//Foto de la persona
-	private String foto; // Ruta o URL de la foto, que va a estar en el paquete de recursos //recursos/imagenes/Hombre1.png
+	private String foto;
 	
 	//constructor
 	public Persona(String nombre, String rol, int calificacion, String foto) {
@@ -21,15 +19,12 @@ public class Persona {
 	
 	//constructor sin foto para los test y el algoritmo fuerza bruta, backtracking y heuristica
 	public Persona(String nombre, String rol, int calificacion) {
-		this.id = ++acumulador;
 		this.nombre = nombre;
 		this.rol = rol;
 		this.calificacion = calificacion;
-		this.foto = null; // O una ruta por defecto si se desea
 	}
 	
-	//Getters y Setters
-	
+	//Getters
 	public String getNombre() {
 		return nombre;
 	}

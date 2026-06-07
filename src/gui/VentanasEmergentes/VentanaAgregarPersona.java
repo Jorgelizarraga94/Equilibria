@@ -1,15 +1,11 @@
 package gui.VentanasEmergentes;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
-
 import gui.PanelPersona.PanelPersonas;
 import logica.LogicaEquilibria;
-
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
@@ -24,12 +20,15 @@ import javax.swing.DefaultComboBoxModel;
 
 public class VentanaAgregarPersona extends JFrame {
 
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField textFieldNombre;
+	@SuppressWarnings("rawtypes")
 	private JComboBox comboBoxRol;
+	@SuppressWarnings("rawtypes")
 	private JComboBox comboBoxCalificacion;
-	LogicaEquilibria logicaEquilibria;
-	PanelPersonas panelPersonas;
+	private LogicaEquilibria logicaEquilibria;
+	private PanelPersonas panelPersonas;
 	private JTextField textFieldFoto;
 
 	public VentanaAgregarPersona(LogicaEquilibria logica, PanelPersonas panelPersonas) {
@@ -38,6 +37,7 @@ public class VentanaAgregarPersona extends JFrame {
 		initialize();
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void initialize() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // para que no se cierre toda la aplicacion al cerrar la
 															// ventana
@@ -102,7 +102,6 @@ public class VentanaAgregarPersona extends JFrame {
 				seleccionarImagen();
 			}
 		});
-
 	}
 
 	private void agregarPersona() {
@@ -115,20 +114,14 @@ public class VentanaAgregarPersona extends JFrame {
 	// Metodo para seleccionar una imagen desde el sistema de archivos
 	private void seleccionarImagen() {
 		java.io.File carpetaProyecto = new java.io.File("./imagenes");
-
 		JFileChooser selector = new JFileChooser(carpetaProyecto);
-
 		FileNameExtensionFilter filtro = new FileNameExtensionFilter("Imágenes (*.jpg, *.png, *.jpeg)", "jpg", "jpeg",
 				"png");
 
 		selector.setFileFilter(filtro);
-
 		int opcion = selector.showOpenDialog(this);
-
 		if (opcion == JFileChooser.APPROVE_OPTION) {
-
 			File archivo = selector.getSelectedFile();
-
 			textFieldFoto.setText(archivo.getAbsolutePath());
 		}
 	}
