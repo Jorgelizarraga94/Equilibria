@@ -4,19 +4,21 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
+
 import gui.PanelPersona.PanelPersonas;
 import logica.LogicaEquilibria;
+
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
+import java.awt.event.ActionEvent;
+import javax.swing.DefaultComboBoxModel;
 
 //Importamos para las imagenes
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.awt.event.ActionEvent;
-import javax.swing.DefaultComboBoxModel;
 
 public class VentanaAgregarPersona extends JFrame {
 

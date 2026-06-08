@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 import java.util.function.Consumer;
 import javax.swing.SwingWorker;
+
 import entidades.Incompatibilidad;
 import entidades.Persona;
 import entidades.Requerimiento;
