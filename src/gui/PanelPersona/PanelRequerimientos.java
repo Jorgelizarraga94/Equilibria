@@ -3,18 +3,14 @@ package gui.PanelPersona;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
-import entidades.Persona;
 import entidades.Requerimiento;
 import gui.VentanasEmergentes.VentanaAgregarRequerimientos;
 import logica.LogicaEquilibria;
 
-import java.awt.BorderLayout;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 
 import java.awt.event.ActionListener;

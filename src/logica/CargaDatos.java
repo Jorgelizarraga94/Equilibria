@@ -1,7 +1,5 @@
 package logica;
 
-import entidades.Persona;
-
 public class CargaDatos {
 
 	public static void cargarDatosDePrueba(LogicaEquilibria logicaEquilibria) {

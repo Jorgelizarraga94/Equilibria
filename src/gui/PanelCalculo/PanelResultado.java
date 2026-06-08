@@ -66,7 +66,6 @@ public class PanelResultado extends JPanel {
 		JLabel lblNewLabel = new JLabel("New label");
 		scrollPane.setColumnHeaderView(lblNewLabel);
 
-		@SuppressWarnings("rawtypes")
 		JComboBox comboBoxSeleccionAlgoritmo = new JComboBox();
 		comboBoxSeleccionAlgoritmo
 				.setModel(new DefaultComboBoxModel(new String[] { "BackTracking", "FuerzaBruta", "Heuristica" }));

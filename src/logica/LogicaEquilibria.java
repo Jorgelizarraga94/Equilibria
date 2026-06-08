@@ -6,9 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 import java.util.function.Consumer;
-
-import javax.swing.JComboBox;
-import javax.swing.JTextField;
 import javax.swing.SwingWorker;
 import entidades.Incompatibilidad;
 import entidades.Persona;

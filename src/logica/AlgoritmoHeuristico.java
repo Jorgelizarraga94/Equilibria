@@ -12,15 +12,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import javax.swing.SwingWorker;
 
 public class AlgoritmoHeuristico extends SwingWorker<List<Persona>, Void> {
     private List<Persona> personasDisponibles;

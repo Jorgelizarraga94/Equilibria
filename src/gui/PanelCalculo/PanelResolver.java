@@ -3,26 +3,17 @@ package gui.PanelCalculo;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JProgressBar;
-import javax.swing.JTable;
 import javax.swing.border.TitledBorder;
 
-import entidades.Incompatibilidad;
 import entidades.Persona;
 import entidades.Requerimiento;
-import gui.PanelPersona.PanelRequerimientos;
-import logica.AlgoritmoFuerzaBruta;
 import logica.LogicaEquilibria;
 import logica.ReporteEjecucion;
 
 import java.awt.BorderLayout;
-import java.awt.GridLayout;
-import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.function.Consumer;
 import java.awt.event.ActionEvent;
 import javax.swing.JComboBox;

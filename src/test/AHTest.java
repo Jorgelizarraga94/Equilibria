@@ -20,7 +20,6 @@ public class AHTest {
 
     private final Persona arq1 = new Persona("Elena", "Arquitecto", 5);
     private final Persona arq2 = new Persona("Marcos", "Arquitecto", 4);
-    private final Persona arq3 = new Persona("Lucas", "Arquitecto", 2);
 
     private final Persona prog1 = new Persona("Sofía", "Programador", 5);
     private final Persona prog2 = new Persona("Juan", "Programador", 4);

@@ -26,7 +26,6 @@ public class ABTTest {
  // Arquitectos (Necesitamos 2)
  private final Persona arq1 = new Persona("Elena", "Arquitecto", 5);
  private final Persona arq2 = new Persona("Marcos", "Arquitecto", 4);
- private final Persona arq3 = new Persona("Lucas", "Arquitecto", 2);
 
  // Programadores (Necesitamos 4)
  private final Persona prog1 = new Persona("Sofía", "Programador", 5);
@@ -34,7 +33,6 @@ public class ABTTest {
  private final Persona prog3 = new Persona("Pedro", "Programador", 3);
  private final Persona prog4 = new Persona("Lucía", "Programador", 3);
  private final Persona prog5 = new Persona("Bruno", "Programador", 1);
- private final Persona prog6 = new Persona("Mariano", "Programador", 1);
 
  // Testers (Necesitamos 5)
  private final Persona test1 = new Persona("Mía", "Tester", 5);
