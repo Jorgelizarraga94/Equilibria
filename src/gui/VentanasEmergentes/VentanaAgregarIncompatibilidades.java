@@ -45,7 +45,7 @@ public class VentanaAgregarIncompatibilidades extends JFrame {
 		this.getContentPane().add(btnGenerarIncompatibilidad);
 
 		// Accion del boton para agregar la incompatibilidad
-		btnGenerarIncompatibilidad.addActionListener((var _) -> {
+		btnGenerarIncompatibilidad.addActionListener((var e) -> {
 			agregarIncompatibilidad(comboBoxPersona1, comboBoxPersona2);
 		});
 

@@ -72,11 +72,11 @@ public class LogicaEquilibria {
 	}
 
 	public void calcularEquipo(String algoritmoSeleccionado, List<Requerimiento> requerimientos, Consumer<ReporteEjecucion> interfazResultado) {
-        List<Persona> deLaGuiPersonas = new ArrayList<>(this.personas.values());
+        List<Persona> PersonasGui = new ArrayList<>(this.personas.values());
         
-        List<String[]> deLaGuiIncompatibilidades = new ArrayList<>();
+        List<String[]> IncompatibilidadesGui = new ArrayList<>();
         for (Incompatibilidad inc : this.incompatibilidades) {
-            deLaGuiIncompatibilidades.add(new String[]{
+            IncompatibilidadesGui.add(new String[]{
                 inc.getPersona1().getNombre(),
                 inc.getPersona2().getNombre()
             });
@@ -86,7 +86,7 @@ public class LogicaEquilibria {
         resultadoBT = new ArrayList<>();
         resultadoAH = new ArrayList<>();
         
-        AlgoritmoHeuristico solverAH = new AlgoritmoHeuristico(deLaGuiPersonas, deLaGuiIncompatibilidades, requerimientos);
+        AlgoritmoHeuristico solverAH = new AlgoritmoHeuristico(PersonasGui, IncompatibilidadesGui, requerimientos);
         resultadoAH.addAll(solverAH.ejecutar());
         reporteAH = new ReporteEjecucion(
             resultadoAH, 
@@ -99,7 +99,7 @@ public class LogicaEquilibria {
 
         CountDownLatch latch = new CountDownLatch(2);
         
-        AlgoritmoFuerzaBruta workerFB = new AlgoritmoFuerzaBruta(deLaGuiPersonas, deLaGuiIncompatibilidades, requerimientos) {
+        AlgoritmoFuerzaBruta workerFB = new AlgoritmoFuerzaBruta(PersonasGui, IncompatibilidadesGui, requerimientos) {
             @Override
             protected void done() {
                 try {
@@ -121,7 +121,7 @@ public class LogicaEquilibria {
             }
         };
 
-        AlgoritmoBackTracking workerBT = new AlgoritmoBackTracking(deLaGuiPersonas, deLaGuiIncompatibilidades, requerimientos) {
+        AlgoritmoBackTracking workerBT = new AlgoritmoBackTracking(PersonasGui, IncompatibilidadesGui, requerimientos) {
             @Override
             protected void done() {
                 try {
