@@ -7,6 +7,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
 import entidades.Requerimiento;
+import gui.VentanaPrincipal;
 import gui.VentanasEmergentes.VentanaAgregarRequerimientos;
 import logica.LogicaEquilibria;
 
@@ -18,10 +19,12 @@ import java.awt.event.ActionEvent;
 
 public class PanelRequerimientos extends JPanel {
 	private static final long serialVersionUID = 1L;
+	private VentanaPrincipal ventanaPrincipal;
 	private JTable tabla;
 	private LogicaEquilibria logicaEquilibria;
 
-	public PanelRequerimientos(LogicaEquilibria logica) {
+	public PanelRequerimientos(LogicaEquilibria logica, VentanaPrincipal ventanaPrincipal) {
+		this.ventanaPrincipal = ventanaPrincipal;
 		this.logicaEquilibria = logica;
 		initialize();
 	}
@@ -61,7 +64,9 @@ public class PanelRequerimientos extends JPanel {
 		add(btnNewEliminarRequerimientos);
 	}
 
-	public void eliminarRequerimiento() {	
+	public void eliminarRequerimiento() {
+		ventanaPrincipal.deshabilitarComboBoxResultado();
+		ventanaPrincipal.habilitarBotonesPanelResolver();
 		int filaSeleccionada = tabla.getSelectedRow();
 		if (filaSeleccionada != -1) {
 			int filaModelo = tabla.convertRowIndexToModel(filaSeleccionada);
@@ -72,6 +77,8 @@ public class PanelRequerimientos extends JPanel {
 	}
 
 	public void abrirVentanaRequerimiento() {
+		ventanaPrincipal.deshabilitarComboBoxResultado();
+		ventanaPrincipal.habilitarBotonesPanelResolver();
 		VentanaAgregarRequerimientos ventanaAgregarRequerimientos = new VentanaAgregarRequerimientos(logicaEquilibria,
 				this);
 		ventanaAgregarRequerimientos.setVisible(true);

@@ -8,6 +8,7 @@ import javax.swing.JOptionPane;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
+import gui.VentanaPrincipal;
 import gui.VentanasEmergentes.VentanaAgregarIncompatibilidades;
 import logica.LogicaEquilibria;
 
@@ -17,6 +18,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class PanelIncompatibilidades extends JPanel {
+	private VentanaPrincipal ventanaPrincipal;
 	private static final long serialVersionUID = 1L;
 	private JTable tabla;
 	private JButton btnAgregar;
@@ -24,7 +26,8 @@ public class PanelIncompatibilidades extends JPanel {
 	private LogicaEquilibria logicaEquilibria;
 	
 	//Constructor
-	public PanelIncompatibilidades(LogicaEquilibria logica) {
+	public PanelIncompatibilidades(LogicaEquilibria logica, VentanaPrincipal ventanaPrincipal) {
+		this.ventanaPrincipal = ventanaPrincipal;
 		this.logicaEquilibria = logica;
 		initialize();
 	}
@@ -68,6 +71,8 @@ public class PanelIncompatibilidades extends JPanel {
 	
 	//Agregar Incompatibilidad
 	private void agregarIncompatibilidades(ActionEvent accion) {
+		ventanaPrincipal.deshabilitarComboBoxResultado();
+		ventanaPrincipal.habilitarBotonesPanelResolver();
 		VentanaAgregarIncompatibilidades ventanaAgregarIncompatibilidades = new VentanaAgregarIncompatibilidades(
 				logicaEquilibria, this);
 		ventanaAgregarIncompatibilidades.setVisible(true);
@@ -76,6 +81,8 @@ public class PanelIncompatibilidades extends JPanel {
 	
 	// Eliminar incompatibilidad
 		private void eliminarIncompatibilidad(ActionEvent e) {
+			ventanaPrincipal.deshabilitarComboBoxResultado();
+			ventanaPrincipal.habilitarBotonesPanelResolver();
 			int filaSeleccionada = tabla.getSelectedRow();
 			if (filaSeleccionada != -1) {
 				int filaModelo = tabla.convertRowIndexToModel(filaSeleccionada);
@@ -94,6 +101,7 @@ public class PanelIncompatibilidades extends JPanel {
 					incompatibilidad.getPersona2().getNombre() });
 		}
 	}
+	
 	
 	public JTable getTabla() {
 		return tabla;

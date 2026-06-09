@@ -1,6 +1,7 @@
 package gui.PanelCalculo;
 
 import entidades.Persona;
+import gui.VentanaPrincipal;
 import logica.LogicaEquilibria;
 import logica.ReporteEjecucion;
 
@@ -22,6 +23,7 @@ import java.util.List;
 public class PanelResultado extends JPanel {
 
 	private static final long serialVersionUID = 1L;
+	private VentanaPrincipal ventanaPrincipal;
 	private LogicaEquilibria logicaEquilibria;
 	private JTable tabla;
 	private JLabel lblTiempo;
@@ -29,9 +31,11 @@ public class PanelResultado extends JPanel {
 	private JLabel lblCasosBase;
 	private JLabel lblPodas;
 	private JLabel lblPuntaje;
+	private static JComboBox comboBoxSeleccionAlgoritmo;
 
 	// Constructor
-	public PanelResultado(LogicaEquilibria logicaEquilibria) {
+	public PanelResultado(LogicaEquilibria logicaEquilibria, VentanaPrincipal ventanaPrincipal) {
+		this.ventanaPrincipal = ventanaPrincipal;
 		setFocusable(false);
 		this.logicaEquilibria = logicaEquilibria;
 		initialize();
@@ -68,7 +72,8 @@ public class PanelResultado extends JPanel {
 		JLabel lblNewLabel = new JLabel("New label");
 		scrollPane.setColumnHeaderView(lblNewLabel);
 
-		JComboBox comboBoxSeleccionAlgoritmo = new JComboBox();
+		comboBoxSeleccionAlgoritmo = new JComboBox();
+		comboBoxSeleccionAlgoritmo.setEnabled(false);
 		comboBoxSeleccionAlgoritmo
 				.setModel(new DefaultComboBoxModel(new String[] { "BackTracking", "FuerzaBruta", "Heuristica" }));
 		comboBoxSeleccionAlgoritmo.setBounds(734, 11, 166, 22);
@@ -173,6 +178,8 @@ public class PanelResultado extends JPanel {
 				puntaje.setText("Mejor puntaje: " + reporte.getPuntajeMaximoObtenido());
 		}
 	}
+	
+	
 
 	public JTable getTabla() {
 		return tabla;
@@ -196,5 +203,13 @@ public class PanelResultado extends JPanel {
 
 	public JLabel getLblPuntaje() {
 		return this.lblPuntaje;
+	}
+
+	public static void habilitarComboBox() {
+		comboBoxSeleccionAlgoritmo.setEnabled(true);
+	}
+
+	public static void deshabilitarComboBox() {
+		comboBoxSeleccionAlgoritmo.setEnabled(false);
 	}
 }

@@ -8,11 +8,14 @@ import javax.swing.border.TitledBorder;
 
 import entidades.Persona;
 import entidades.Requerimiento;
+import gui.VentanaPrincipal;
+import gui.VentanasEmergentes.VentanaAgregarPersona;
 import logica.LogicaEquilibria;
 import logica.ReporteEjecucion;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionListener;
+import java.security.PrivateKey;
 import java.util.List;
 import java.util.function.Consumer;
 import java.awt.event.ActionEvent;
@@ -21,9 +24,10 @@ import javax.swing.DefaultComboBoxModel;
 
 public class PanelResolver extends JPanel {
 	private static final long serialVersionUID = 1L;
+	private VentanaPrincipal ventanaPrincipal;
 	private LogicaEquilibria logicaEquilibria;
 	private PanelResultado panelRes;
-	private JButton btnGenerarEquipo;
+	private static JButton btnGenerarEquipo;
 	private JLabel lblTiempo;
 	private JLabel lblNodos;
 	private JLabel lblCasosBase;
@@ -31,10 +35,11 @@ public class PanelResolver extends JPanel {
 	private JLabel lblPuntaje;
 	private JProgressBar barra;
 	@SuppressWarnings("rawtypes")
-	private JComboBox comboBox;
+	private static JComboBox comboBox;
 
 	// Constructor
-	public PanelResolver(LogicaEquilibria logica, PanelResultado panelres) {
+	public PanelResolver(LogicaEquilibria logica, PanelResultado panelres, VentanaPrincipal ventanaPrincipal) {
+		this.ventanaPrincipal = ventanaPrincipal;
 		this.logicaEquilibria = logica;
 		this.panelRes = panelres;
 		initialize();
@@ -81,10 +86,16 @@ public class PanelResolver extends JPanel {
 		panelStats.add(comboBox);
 
 		btnGenerarEquipo = new JButton("GENERAR EQUIPO");
+
 		btnGenerarEquipo.setBounds(206, 12, 153, 23);
 		panelStats.add(btnGenerarEquipo);
+		deshabilitarEstadisticas();
 		btnGenerarEquipo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				habilitarEstadisticas();
+				ventanaPrincipal.habilitarComboBoxResultado();
+				btnGenerarEquipo.setEnabled(false);
+				comboBox.setEnabled(false);
 				barra.setIndeterminate(false);
 				barra.setValue(100);
 				barra.setString("Calculando...");
@@ -153,5 +164,29 @@ public class PanelResolver extends JPanel {
 
 	public JProgressBar getBarra() {
 		return barra;
+	}
+
+	public void deshabilitarEstadisticas() {
+		lblTiempo.setVisible(false);
+		lblNodos.setVisible(false);
+		lblCasosBase.setVisible(false);
+		lblPodas.setVisible(false);
+		lblPuntaje.setVisible(false);
+	}
+
+	public void habilitarEstadisticas() {
+		lblTiempo.setVisible(true);
+		lblNodos.setVisible(true);
+		lblCasosBase.setVisible(true);
+		lblPodas.setVisible(true);
+		lblPuntaje.setVisible(true);
+	}
+
+	public static void habilitarGenerarEquipo() {
+		btnGenerarEquipo.setEnabled(true);
+	}
+
+	public static void habilitarSeleccionAlgoritmo() {
+		comboBox.setEnabled(true);
 	}
 }

@@ -9,6 +9,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
 import entidades.Persona;
+import gui.VentanaPrincipal;
 import gui.VentanasEmergentes.VentanaAgregarPersona;
 import logica.LogicaEquilibria;
 
@@ -23,8 +24,10 @@ public class PanelPersonas extends JPanel {
 	private JButton btnAgregar;
 	private JButton btnEliminar;
 	private LogicaEquilibria logicaEquilibria;
+	private VentanaPrincipal ventanaPrincipal;
 
-	public PanelPersonas(LogicaEquilibria logica) {
+	public PanelPersonas(LogicaEquilibria logica, VentanaPrincipal ventanaPrincipal) {
+		this.ventanaPrincipal = ventanaPrincipal;
 		this.logicaEquilibria = logica;
 		initialize();
 	}
@@ -68,11 +71,15 @@ public class PanelPersonas extends JPanel {
 
 	private void visualizarVentanaAgregarPersona(ActionEvent accion) {
 		VentanaAgregarPersona agregarPersona = new VentanaAgregarPersona(logicaEquilibria, this);
+		ventanaPrincipal.deshabilitarComboBoxResultado();
+		ventanaPrincipal.habilitarBotonesPanelResolver();
 		agregarPersona.setVisible(true);
 		agregarPersona.setLocationRelativeTo(null);
 	}
 
 	private void eliminarPersonaInterfaz(ActionEvent e) {
+		ventanaPrincipal.deshabilitarComboBoxResultado();
+		ventanaPrincipal.habilitarBotonesPanelResolver();
 		int filaSeleccionada = tabla.getSelectedRow();
 		if (filaSeleccionada != -1) {
 			int filaModelo = tabla.convertRowIndexToModel(filaSeleccionada);

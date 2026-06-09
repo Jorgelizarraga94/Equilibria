@@ -11,6 +11,8 @@ import javax.swing.SwingWorker;
 import entidades.Incompatibilidad;
 import entidades.Persona;
 import entidades.Requerimiento;
+import gui.PanelCalculo.PanelResolver;
+import gui.PanelCalculo.PanelResultado;
 
 public class LogicaEquilibria {
 	
@@ -209,4 +211,5 @@ public class LogicaEquilibria {
 		}
 		return true;
 	}
+    
 }

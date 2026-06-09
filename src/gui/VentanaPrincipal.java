@@ -36,21 +36,21 @@ public class VentanaPrincipal extends JFrame {
 		getContentPane().setLayout(null);
 
 		// PERSONAS
-		panelPersonas = new PanelPersonas(logicaEquilibria);
+		panelPersonas = new PanelPersonas(logicaEquilibria,this);
 		panelPersonas.refrescarTabla();
 		panelPersonas.setBounds(10, 10, 450, 300);
 
 		getContentPane().add(panelPersonas);
 
 		// INCOMPATIBILIDADES
-		panelIncompatibilidades = new PanelIncompatibilidades(logicaEquilibria);
+		panelIncompatibilidades = new PanelIncompatibilidades(logicaEquilibria,this);
 
 		panelIncompatibilidades.setBounds(470, 10, 450, 300);
 
 		getContentPane().add(panelIncompatibilidades);
 
 		// REQUERIMIENTOS
-		panelRequerimientos = new PanelRequerimientos(logicaEquilibria);
+		panelRequerimientos = new PanelRequerimientos(logicaEquilibria,this);
 		panelRequerimientos.refrescarTabla();
 		panelRequerimientos.getTabla().setBounds(7, 78, 315, 64);
 
@@ -59,7 +59,7 @@ public class VentanaPrincipal extends JFrame {
 		getContentPane().add(panelRequerimientos);
 
 		// RESULTADO
-		panelResultado = new PanelResultado(logicaEquilibria);
+		panelResultado = new PanelResultado(logicaEquilibria,this);
 		panelResultado.getTabla().setBounds(7, 60, 923, 0);
 
 		panelResultado.setBounds(470, 321, 904, 400);
@@ -67,7 +67,7 @@ public class VentanaPrincipal extends JFrame {
 		getContentPane().add(panelResultado);
 
 		// RESOLVER
-		panelResolver = new PanelResolver(logicaEquilibria, panelResultado);
+		panelResolver = new PanelResolver(logicaEquilibria, panelResultado,this);
 		panelResultado.setLayout(null);
 
 		panelResolver.setBounds(10, 320, 450, 400);
@@ -75,5 +75,18 @@ public class VentanaPrincipal extends JFrame {
 		getContentPane().add(panelResolver);
 
 	}
+	
+	public void habilitarBotonesPanelResolver() {
+    	panelResolver.habilitarGenerarEquipo();
+    	panelResolver.habilitarSeleccionAlgoritmo();
+    }
+    
+    public void habilitarComboBoxResultado() {
+    	panelResultado.habilitarComboBox();
+    }
+    
+    public void deshabilitarComboBoxResultado() {
+    	panelResultado.deshabilitarComboBox();
+    }
 
 }
