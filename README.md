@@ -3,6 +3,12 @@
 ## Programación III — UNGS (TP3)
 ---
 
+## Desarrolladores
+Este proyecto fue desarrollado por:
+* **Lucero Juan**
+* **Dino Martin**
+* **Lizarraga Jorge**
+
 ## 📝 Introducción
 
 [cite_start]**Equilibria** es una aplicación desarrollada en Java diseñada para resolver el problema de conformación de equipos de trabajo óptimos dentro de una *Software Factory*[cite: 1]. [cite_start]El sistema administra un conjunto de personas disponibles, caracterizadas por su nombre, rol, calificación de desempeño e incompatibilidades mutuas[cite: 2, 3]. [cite_start]El objetivo principal es maximizar la suma total de las calificaciones del equipo resultante, cumpliendo estrictamente con los requerimientos de roles solicitados y evitando incorporar personas incompatibles entre sí[cite: 3, 7].
