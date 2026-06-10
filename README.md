@@ -1,7 +1,6 @@
 # Equilibria - Sistema de Conformación de Equipos Óptimos
 
-[cite_start]**Trabajo Práctico N°3 - Programación III** **Integrantes:** Lizarraga Jorge, Lucero Juan, Dino Martin[cite: 1].
-
+## Programación III — UNGS (TP3)
 ---
 
 ## 📝 Introducción
