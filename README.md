@@ -85,3 +85,5 @@ Al resolver una instancia de equipo, la aplicación genera un objeto `ReporteEje
 
 ---
 
+<img width="1379" height="789" alt="Equilibria imagen" src="https://github.com/user-attachments/assets/e5e15803-823d-4908-87a5-d7fe653f807b" />
+
