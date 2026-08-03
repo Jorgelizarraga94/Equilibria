@@ -1,7 +1,4 @@
-# Equilibria - Sistema de Conformación de Equipos Óptimos
-
-## Programación III — UNGS (TP3)
----
+## Equilibria - Sistema de Conformación de Equipos Óptimos
 
 ## Desarrolladores
 Este proyecto fue desarrollado por:
@@ -9,7 +6,6 @@ Este proyecto fue desarrollado por:
 * **Dino Martin**
 * **Lizarraga Jorge**
 
-* **Cátedra:** Programación 3 (Proyecto Universitario)
 
 ## 📝 Introducción
 
